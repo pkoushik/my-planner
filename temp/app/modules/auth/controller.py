@@ -66,29 +66,6 @@ def signup():
         return redirect(url_for('auth.signup'))
 
 
-@auth.route('/activate/<activation_token>/<email>', methods=['GET'])
-def activate_account(activation_token, email):
-    """ Activates the user's account.  A user recieves this link after
-        signing up. """
-
-    user = user_datastore.find_user(email=email)
-
-    if user is None:
-        flash('error Invalid Email, Please Create an Account.')
-        return redirect(url_for('auth.signup'))
-
-    if not verify_password(activation_token, user.activation_hash):
-        flash('error Could not Validate Activation Token.')
-        return redirect(url_for('auth.signup'))
-
-    user.authenticated = True
-    user.save()
-
-    login_user(user)
-    flash("success Successfully Authenticated account!")
-    return redirect(url_for('meetings.home'))
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """ Creates a session for the current user """
@@ -129,96 +106,6 @@ def login():
 
     flash('success Logged in Successfully, {}'.format(user.name))
     return redirect(request.args.get('next') or url_for('meetings.home'))
-
-
-@auth.route('/forgot_password', methods=['GET', 'POST'])
-def forgot_password():
-    """ Initializes a User's Request to Reset their Password """
-
-    form = PasswordResetRequestForm(request.form)
-
-    if request.method == 'GET':
-        return render_template('auth/password_reset_request.html', form=form)
-
-    if not form.validate():
-        flash('error Could not Reset Password at this Time.')
-        return redirect(url_for('auth.signup'))
-
-    user = user_datastore.find_user(email=form.email.data)
-
-    if user is None:
-        flash('error Invalid Email. Please Create an Account.')
-        return redirect(url_for('auth.signup'))
-
-    # generate reset token
-    reset_token = secrets.token_urlsafe(32)
-
-    # update the user's password reset hash
-    user.password_reset_hash = hash_password(reset_token)
-    user.save()
-
-    try:
-        mail = SendGrid(app)
-
-        # send the password reset email
-        mail.send_email(
-            from_email=app.config['SENDGRID_DEFAULT_FROM'],
-            to_email=user.email,
-            subject='yourHomework Reset Password',
-            html=password_html(user.name, reset_token, form.email.data)
-        )
-
-        flash('success Please Check Your Email For a Reset Confirmation.')
-        return redirect(url_for('auth.login'))
-    except Exception as e:
-        print(str(e))
-        flash('error Could Not Send Reset Request.')
-        return redirect(url_for('auth.login'))
-
-
-@auth.route('/reset_password/<reset_token>/<email>', methods=['GET'])
-def reset_password(reset_token, email):
-    """ Validates the User's Password Reset Request """
-
-    user = user_datastore.find_user(email=email)
-
-    if user is None:
-        flash('error Unable To Process Reset Request. Please Try Agiain.')
-        return redirect(url_for('auth.login'))
-
-    if not verify_password(reset_token, user.password_reset_hash):
-        flash('error Could not Validate Reset Request. Please Try Again.')
-        return redirect(url_for('auth.login'))
-
-    return redirect(url_for('auth.reset_form', email=email))
-
-
-@auth.route('/reset_form/<email>', methods=['GET', 'POST'])
-def reset_form(email):
-    """ Reset's the User's Password """
-
-    form = PasswordResetForm(request.form)
-
-    if request.method == 'GET':
-        return render_template('auth/password_reset.html', form=form)
-
-    if not form.validate():
-        flash("error An Error has Occurred, Please try again.")
-        return redirect(url_for('auth.login'))
-
-    user = user_datastore.find_user(email=email)
-
-    if user is None:
-        flash('error Could Not Find the Specified User.')
-        return redirect(url_for('auth.login'))
-
-    # update the user's password
-    user.password = hash_password(form.password.data)
-    user.save()
-
-    flash("success Password Successfully Reset!")
-    return redirect(url_for('auth.login'))
-
 
 @auth.route('/profile/<user_id>', methods=['GET'])
 @login_required

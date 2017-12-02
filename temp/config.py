@@ -1,9 +1,9 @@
-SECRET_KEY = '907a9219e42a731955df7c4f73b79d7ae26db3825f97f700'
+SECRET_KEY = '907a9219e42a731955df7c4f73b79d7ae26db3825f97f701'
 
 # Database configuration
 MONGODB_SETTINGS = {
-    # 'db': 'heroku_4b10n3s4',
-    # 'host': 'mongodb://heroku_4b10n3s4:ldlbj6d3it0u3n5un9kb9d38n9@ds147884.mlab.com:47884/heroku_4b10n3s4'
+    'db': 'heroku_w1vp7gq6',
+    'host' : 'mongodb://heroku_w1vp7gq6:3ghb0c1fcn8rdmcr6c2sutsof1@ds125896.mlab.com:25896/heroku_w1vp7gq6'
 }
 
 # Define the threads per page, usually 2

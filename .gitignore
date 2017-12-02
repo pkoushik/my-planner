@@ -1,2 +1,5 @@
 #virtualenv
 app/venv
+temp/config.py*
+app/*.pyc
+temp/*.pyc

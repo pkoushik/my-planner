@@ -45,7 +45,7 @@ def signup():
         print("Send grid created")
         # send registration email
         mail.send_email(from_email=app.config['SENDGRID_DEFAULT_FROM'], to_email=email,
-                        subject='Welcome to Quillio', html=activate_html(name, activation_token, email))
+                        subject='Welcome to yourHomework', html=activate_html(name, activation_token, email))
         print("Email sent")
 
         # add user to the database
@@ -164,7 +164,7 @@ def forgot_password():
         mail.send_email(
             from_email=app.config['SENDGRID_DEFAULT_FROM'],
             to_email=user.email,
-            subject='Quillio Reset Password',
+            subject='yourHomework Reset Password',
             html=password_html(user.name, reset_token, form.email.data)
         )
 
@@ -238,7 +238,7 @@ def invite_user(email):
         mail.send_email(
             from_email=app.config['SENDGRID_DEFAULT_FROM'],
             to_email=email,
-            subject='Come Join Quillio',
+            subject='Come Join yourHomework',
             html=invite_html(user.email, email)
         )
 
@@ -303,11 +303,11 @@ def activate_html(name, token, email):
 
     header = '<nav style="height:50px"></nav><h2 align="center"> Account Activation </h2>'
     body = '<p>Dear ' + name + \
-        ',</p><br><p> Welcome to Quillio! To activate your account, please follow the following link: </p>'
+        ',</p><br><p> Welcome to yourHomework! To activate your account, please follow the following link: </p>'
     link = '<a href=http://0.0.0.0:5000' + \
         url_for('auth.activate_account', activation_token=token,
                 email=email) + '> Activate account </a></br>'
-    close = '<p> Thanks! </p><br><p> The Quillio Team </p>'
+    close = '<p> Thanks! </p><br><p> The yourHomework Team </p>'
     return str(header + body + link + close)
 
 
@@ -321,7 +321,7 @@ def password_html(name, token, email):
     link = '<a href=http://0.0.0.0:5000' + \
         url_for('auth.reset_password', reset_token=token,
                 email=email) + '> Reset Password </a><br>'
-    close = '<p>Thanks!</p><br><p>The Quillio Team</p>'
+    close = '<p>Thanks!</p><br><p>The yourHomework Team</p>'
     return header + body + body3 + body4 + body2 + link + close
 
 
@@ -329,8 +329,8 @@ def invite_html(user_email, email):
     """ Generates the Invitation Email Template """
 
     body = '<p> Dear ' + email + ',</p><br><p>' + user_email + \
-        ' has invited you to join us at Quillio. </p><br><p> Come see what we can do for you!</p><br>'
+        ' has invited you to join us at yourHomework. </p><br><p> Come see what we can do for you!</p><br>'
     link = '<a href=http://0.0.0.0:5000' + \
         url_for('auth.signup') + '> Create an Account </a><br>'
-    close = '<p>Thanks!</p><br><p>The Quillio Team</p>'
+    close = '<p>Thanks!</p><br><p>The yourHomework Team</p>'
     return header + body + link + close

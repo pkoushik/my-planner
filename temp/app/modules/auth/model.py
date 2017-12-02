@@ -21,7 +21,7 @@ class User(db.Document, UserMixin):
     name = db.StringField(required=True, min_length=4, max_length=20)
     password = db.StringField(required=True, min_length=5, max_length=1000)
 
-    # quillio fields
+    # yourHomework fields
     groups = db.ListField(db.ReferenceField('Group'), default=[])
     meetings = db.ListField(db.ReferenceField('Meeting'), default=[])
 

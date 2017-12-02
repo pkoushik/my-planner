@@ -41,12 +41,12 @@ def signup():
         # generate activation token
         activation_token = secrets.token_urlsafe(32)
         print("Activation token generated")
-        mail = SendGrid(app)
-        print("Send grid created")
+        #mail = SendGrid(app)
+        #print("Send grid created")
         # send registration email
-        mail.send_email(from_email=app.config['SENDGRID_DEFAULT_FROM'], to_email=email,
-                        subject='Welcome to myplanner', html=activate_html(name, activation_token, email))
-        print("Email sent")
+        #mail.send_email(from_email=app.config['SENDGRID_DEFAULT_FROM'], to_email=email,
+        #                subject='Welcome to myplanner', html=activate_html(name, activation_token, email))
+        #print("Email sent")
 
         # add user to the database
         user_datastore.create_user(
@@ -54,11 +54,10 @@ def signup():
             name=name,
             password=hash_password(password),
             activation_hash=hash_password(activation_token),
-            active=True,
-            authenticated=False
+            active=True
         )
 
-        flash('Please Check Your Email For An Activation Request.')
+        flash('User Created')
         return redirect(url_for('auth.login'))
     except Exception as e:
         print(str(e))
@@ -109,6 +108,7 @@ def login():
     password = form.password.data
 
     user = user_datastore.find_user(email=email)
+    print(str(user.email))
 
     # user does not exist
     if user is None:

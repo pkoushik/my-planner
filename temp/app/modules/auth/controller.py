@@ -66,29 +66,6 @@ def signup():
         return redirect(url_for('auth.signup'))
 
 
-@auth.route('/activate/<activation_token>/<email>', methods=['GET'])
-def activate_account(activation_token, email):
-    """ Activates the user's account.  A user recieves this link after
-        signing up. """
-
-    user = user_datastore.find_user(email=email)
-
-    if user is None:
-        flash('error Invalid Email, Please Create an Account.')
-        return redirect(url_for('auth.signup'))
-
-    if not verify_password(activation_token, user.activation_hash):
-        flash('error Could not Validate Activation Token.')
-        return redirect(url_for('auth.signup'))
-
-    user.authenticated = True
-    user.save()
-
-    login_user(user)
-    flash("success Successfully Authenticated account!")
-    return redirect(url_for('meetings.home'))
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """ Creates a session for the current user """
@@ -130,6 +107,7 @@ def login():
     flash('success Logged in Successfully, {}'.format(user.name))
     return redirect(request.args.get('next') or url_for('meetings.home'))
 
+<<<<<<< HEAD
 
 @auth.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
@@ -220,6 +198,8 @@ def reset_form(email):
     return redirect(url_for('auth.login'))
 
 
+=======
+>>>>>>> a378840c5e4f2947b87365b53400d85a9cc13575
 @auth.route('/profile/<user_id>', methods=['GET'])
 @login_required
 def view_profile(user_id):

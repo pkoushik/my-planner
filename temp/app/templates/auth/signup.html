@@ -1,12 +1,12 @@
-{% set login_signup = "loginorsignup" %}{% extends "helpers/layout.html" %} {% block title %} yourHomework Signup {% endblock %} {% block bodyheader %}{{ super() }}{% endblock %} {% block navbar %}
-<nav style="height:50px" class="navbar navbar-expand-lg yourHomeworkColor"></nav>
+{% set login_signup = "loginorsignup" %}{% extends "helpers/layout.html" %} {% block title %} myplanner Signup {% endblock %} {% block bodyheader %}{{ super() }}{% endblock %} {% block navbar %}
+<nav style="height:50px" class="navbar navbar-expand-lg myplannerColor"></nav>
 {% endblock %}{% block content %}
 <div style="max-width:800px; margin:0 auto" class="container">
     <form>
         <br>
         <div class="text-center">
             <br>
-            <img style="max-width:400px; height:auto" src="/../static/img/logo/yourHomeworkBlack.png">
+            <img style="max-width:400px; height:auto" src="/../static/img/logo/myplannerBlack.png">
             <br>
             <div class="md-form">
                 <input type="text" id="name" name="name" class="form-control" value="{{ request.form.name }}" required>
@@ -21,7 +21,7 @@
                 <label for="password"> Password </label>
             </div>
             <div class="md-form">
-                <button type="submit" class="btn yourHomeworkButton" formmethod="post">Create Account</button>
+                <button type="submit" class="btn myplannerButton" formmethod="post">Create Account</button>
             </div>
             <a href="/auth/login"> Already have an account? Log In Here! </a>
         </div>

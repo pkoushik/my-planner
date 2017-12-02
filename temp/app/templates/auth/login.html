@@ -1,12 +1,12 @@
-{% set login_signup = "loginorsignup" %}{% extends "helpers/layout.html" %} {% block title %} yourHomework Login {% endblock %} {% block bodyheader %}{{ super() }}{% endblock %} {% block navbar %}
-<nav style="height:50px" class="navbar navbar-expand-lg yourHomeworkColor"></nav>
+{% set login_signup = "loginorsignup" %}{% extends "helpers/layout.html" %} {% block title %} myplanner Login {% endblock %} {% block bodyheader %}{{ super() }}{% endblock %} {% block navbar %}
+<nav style="height:50px" class="navbar navbar-expand-lg myplannerColor"></nav>
 {% endblock %}{% block content %}
 <div style="max-width:800px; margin:0 auto" class="container">
     <form>
         <br>
         <div class="text-center">
             <br>
-            <img style="max-width:400px; height:auto" src="/../static/img/logo/yourHomeworkBlack.png">
+            <img style="max-width:400px; height:auto" src="/../static/img/logo/myplannerBlack.png">
             <br>
             <div class="md-form">
                 <input type="email" id="email" name="email" class="form-control validate" value="{{ request.form.email }}" required>
@@ -18,8 +18,8 @@
                 <label for="password"> Enter your password </label>
             </div>
             <ul>
-                <button type="submit" style="width:120px" class="btn yourHomeworkButton" formmethod="post"> Login </button>
-                <a style="width:120px" href="/auth/signup" class="btn yourHomeworkButton">Sign Up</a>
+                <button type="submit" style="width:120px" class="btn myplannerButton" formmethod="post"> Login </button>
+                <a style="width:120px" href="/auth/signup" class="btn myplannerButton">Sign Up</a>
             </ul>
             <a href="/auth/forgot_password" style="text-align:center;"> Forgot your password? Reset Here! </a>
         </div>

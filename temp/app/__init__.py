@@ -11,7 +11,7 @@ db = MongoEngine(app)
 
 @app.route('/')
 def index():
-    return '<h1> Quillio Home </h1>'
+    return '<h1> yourHomework Home </h1>'
 
 
 # Import Blueprint modules

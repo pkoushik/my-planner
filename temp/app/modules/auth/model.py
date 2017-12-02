@@ -1,7 +1,7 @@
 from app import app, db
 
 from flask_security import Security, MongoEngineUserDatastore, \
-    UserMixin, RoleMixin
+    UserMixin , RoleMixin
 from wtforms import Form, StringField, PasswordField, validators
 
 
@@ -31,11 +31,8 @@ class User(db.Document, UserMixin):
 
     # security fields
     active = db.BooleanField(default=False)
-    authenticated = db.BooleanField(default=False)
     roles = db.ListField(db.ReferenceField(Role), default=[])
 
-    # statistics fields
-    meeting_count = db.IntField(default=0)
 
     def is_authenticated(self):
         """ Determines if a User is authenticated """

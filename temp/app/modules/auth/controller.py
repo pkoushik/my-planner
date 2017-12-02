@@ -41,12 +41,12 @@ def signup():
         # generate activation token
         activation_token = secrets.token_urlsafe(32)
         print("Activation token generated")
-        mail = SendGrid(app)
-        print("Send grid created")
+        #mail = SendGrid(app)
+        #print("Send grid created")
         # send registration email
-        mail.send_email(from_email=app.config['SENDGRID_DEFAULT_FROM'], to_email=email,
-                        subject='Welcome to myplanner', html=activate_html(name, activation_token, email))
-        print("Email sent")
+        #mail.send_email(from_email=app.config['SENDGRID_DEFAULT_FROM'], to_email=email,
+        #                subject='Welcome to myplanner', html=activate_html(name, activation_token, email))
+        #print("Email sent")
 
         # add user to the database
         user_datastore.create_user(
@@ -54,11 +54,10 @@ def signup():
             name=name,
             password=hash_password(password),
             activation_hash=hash_password(activation_token),
-            active=True,
-            authenticated=False
+            active=True
         )
 
-        flash('Please Check Your Email For An Activation Request.')
+        flash('User Created')
         return redirect(url_for('auth.login'))
     except Exception as e:
         print(str(e))
@@ -86,6 +85,7 @@ def login():
     password = form.password.data
 
     user = user_datastore.find_user(email=email)
+    print(str(user.email))
 
     # user does not exist
     if user is None:
@@ -107,99 +107,7 @@ def login():
     flash('success Logged in Successfully, {}'.format(user.name))
     return redirect(request.args.get('next') or url_for('meetings.home'))
 
-<<<<<<< HEAD
 
-@auth.route('/forgot_password', methods=['GET', 'POST'])
-def forgot_password():
-    """ Initializes a User's Request to Reset their Password """
-
-    form = PasswordResetRequestForm(request.form)
-
-    if request.method == 'GET':
-        return render_template('auth/password_reset_request.html', form=form)
-
-    if not form.validate():
-        flash('error Could not Reset Password at this Time.')
-        return redirect(url_for('auth.signup'))
-
-    user = user_datastore.find_user(email=form.email.data)
-
-    if user is None:
-        flash('error Invalid Email. Please Create an Account.')
-        return redirect(url_for('auth.signup'))
-
-    # generate reset token
-    reset_token = secrets.token_urlsafe(32)
-
-    # update the user's password reset hash
-    user.password_reset_hash = hash_password(reset_token)
-    user.save()
-
-    try:
-        mail = SendGrid(app)
-
-        # send the password reset email
-        mail.send_email(
-            from_email=app.config['SENDGRID_DEFAULT_FROM'],
-            to_email=user.email,
-            subject='myplanner Reset Password',
-            html=password_html(user.name, reset_token, form.email.data)
-        )
-
-        flash('success Please Check Your Email For a Reset Confirmation.')
-        return redirect(url_for('auth.login'))
-    except Exception as e:
-        print(str(e))
-        flash('error Could Not Send Reset Request.')
-        return redirect(url_for('auth.login'))
-
-
-@auth.route('/reset_password/<reset_token>/<email>', methods=['GET'])
-def reset_password(reset_token, email):
-    """ Validates the User's Password Reset Request """
-
-    user = user_datastore.find_user(email=email)
-
-    if user is None:
-        flash('error Unable To Process Reset Request. Please Try Agiain.')
-        return redirect(url_for('auth.login'))
-
-    if not verify_password(reset_token, user.password_reset_hash):
-        flash('error Could not Validate Reset Request. Please Try Again.')
-        return redirect(url_for('auth.login'))
-
-    return redirect(url_for('auth.reset_form', email=email))
-
-
-@auth.route('/reset_form/<email>', methods=['GET', 'POST'])
-def reset_form(email):
-    """ Reset's the User's Password """
-
-    form = PasswordResetForm(request.form)
-
-    if request.method == 'GET':
-        return render_template('auth/password_reset.html', form=form)
-
-    if not form.validate():
-        flash("error An Error has Occurred, Please try again.")
-        return redirect(url_for('auth.login'))
-
-    user = user_datastore.find_user(email=email)
-
-    if user is None:
-        flash('error Could Not Find the Specified User.')
-        return redirect(url_for('auth.login'))
-
-    # update the user's password
-    user.password = hash_password(form.password.data)
-    user.save()
-
-    flash("success Password Successfully Reset!")
-    return redirect(url_for('auth.login'))
-
-
-=======
->>>>>>> a378840c5e4f2947b87365b53400d85a9cc13575
 @auth.route('/profile/<user_id>', methods=['GET'])
 @login_required
 def view_profile(user_id):

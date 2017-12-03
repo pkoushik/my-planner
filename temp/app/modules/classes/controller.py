@@ -8,7 +8,7 @@ from app.modules.classes.model import Class
 from app.modules.events.model import Event
 from flask import Blueprint, render_template, flash, request, redirect, url_for, jsonify
 from flask_security import current_user, login_required
-from bson import json_util1
+from bson import json_util
 
 classes = Blueprint('classes', __name__)
 
@@ -46,4 +46,3 @@ def add_class(form=None):
 
     except Exception as e:
     	flash('error An Error has occurred, Please Try Again. {}'.format(e))
-

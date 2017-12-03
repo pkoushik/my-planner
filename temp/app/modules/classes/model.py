@@ -12,7 +12,7 @@ class Class(db.Document):
     events = db.ListField(db.ReferenceField(Events))
     start_time = db.DateTimeField(default=dt.now())
     end_time = db.DateTimeField(default=dt.now())
-    days = db.StringField(default="",required=True)
+    days = db.ListField(db.StringField(default="",required=True))
     start_date = db.DateField(default=dt.now())
     end_date = db.DateField(default=dt.now())
     meta = {'strict': False}

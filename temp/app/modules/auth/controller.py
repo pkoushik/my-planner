@@ -66,11 +66,6 @@ def login():
     if request.method == 'GET':
         return render_template('auth/login.html', form=LoginForm())
 
-    # if not request.form:
-    #     data = request.get_json()
-    #     email = data['email']
-    #     password = data['password']
-    # else:
     form = LoginForm(request.form)
     if not form.validate():
         flash('error Invalid Email or Password.')

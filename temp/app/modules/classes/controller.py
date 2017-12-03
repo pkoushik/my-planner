@@ -34,7 +34,7 @@ def home():
         return filter_form(request.form)
     user = current_user._get_current_object()
     form = CreateClassForm()
-    return render_template('classes/dashboard.html', classes=user.classes, user=user, form=form)
+    return render_template('classes/classes.html', classes=user.classes, user=user, form=form)
 
 @classes.route('/addClass', methods=['POST'])
 @login_required

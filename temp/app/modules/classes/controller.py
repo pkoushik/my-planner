@@ -61,7 +61,6 @@ def add_class(form=None):
 
         user.classes.append(current_class)
         user.save()
-        valid_emails = ["idk"]
 
         flash('success Added Class: {}'.format(current_class.name))
 
@@ -69,3 +68,11 @@ def add_class(form=None):
         flash('error An Error has occured, Please Try Again. {}'.format(e))
 
     return redirect(request.args.get('next') or url_for('classes.home'))
+
+@classes.route('/classes/<class_id>', methods=['GET'])
+@login_required
+def getEvents(class_id):
+    print("yooo im cool man guy")
+    c = Class.objects.with_id(class_id)
+    user = current_user._get_current_object()
+    return render_template('events/events.html', c=c, user=user)

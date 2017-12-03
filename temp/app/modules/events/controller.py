@@ -2,17 +2,13 @@ import string
 
 from app.modules.auth.model import User
 from app.modules.events.model import Event, EventCreateForm
-from app.modules.classes.model import Meeting, MeetingCreateForm, MeetingUpdateForm, MeetingDeleteForm
+from app.modules.classes.model import Class
 from flask import Blueprint, request, render_template, flash, redirect, \
     url_for, jsonify
 from flask_security import login_required, current_user
 
 
 events = Blueprint('events', __name__)
-
-
-
-
 
 def filter_form(form):
     """ Router for CRUD Forms that were Recieved on the event Dashboard """
@@ -41,18 +37,13 @@ def event_filter_form(form):
     flash('error Could not fullfill request. Please try again')
     return redirect(url_form('events.home'))
 
-
 #abhis shit
-@events.route('/create', methods=['POST'])
+@events.route('/addEvent', methods=['POST'])
 @login_required
-# def create_event(form=None):
-#     if form is None: # there was not a form?
-#         create_form = eventCreateForm(request.form)
-#     else: # there is a form?
-#         create_form = eventCreateForm(form)
-	if form is None:
-		flash('There was no form idk what to do now')
-		return redirect(request.args.get('next') or url_for('events.home'))
+def add_event(form=None):
+    if form is None:
+        flash('There was no form idk what to do now')
+        return redirect(request.args.get('next') or url_for('events.home'))
 
     create_form = EventCreateForm(form) # the form for creating a new event
 
@@ -74,7 +65,7 @@ def event_filter_form(form):
               '{}'.format(str(e)))
 
     return redirect(request.args.get('next') or url_for('events.home'))
-        
+
 
 
 

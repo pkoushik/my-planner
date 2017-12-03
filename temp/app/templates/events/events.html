@@ -1,13 +1,13 @@
 {% extends"helpers/dashboard.html" %} {% block title %} MyPlanner Dashboard {% endblock %} {% block main %}
 
-<h3 class="text-center"> My Classes </h3>
+<h3 class="text-center"> My Assignments </h3>
 
 <!-- Class Cards  -->
-{% for row_of_class in classes | batch(3) %}
+{% for row_of_events in c.events | batch(3) %}
 <div class="container">
     <br>
     <div class="row">
-        {% for class in row_of_class %}
+        {% for event in row_of_events %}
         <div class="card col-md-4">
             <div class=" view overlay hm-white-slight">
                 <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="card-body">
-                <h4 class="card-title">{{ class.name }}</h4>
+                <h4 class="card-title">{{ event.name }}</h4>
                 <hr>
             </div>
             <div class="card-data flex-center">

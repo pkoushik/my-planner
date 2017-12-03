@@ -12,6 +12,9 @@ from flask_security import login_required, current_user
 events = Blueprint('events', __name__)
 
 
+
+
+
 def filter_form(form):
     """ Router for CRUD Forms that were Recieved on the event Dashboard """
 
@@ -38,6 +41,61 @@ def event_filter_form(form):
 
     flash('error Could not fullfill request. Please try again')
     return redirect(url_form('events.home'))
+
+
+#abhis shit
+@events.route('/create', methods=['POST'])
+@login_required
+def create_event(form=None):
+    if form is None:
+        create_form = eventCreateForm(request.form)
+    else:
+        create_form = eventCreateForm(form)
+
+    if not create_form.validate():
+        flash('error Could not Create New event, Please Try Again.')
+        return redirect(request.args.get('next') or url_for('events.home'))
+
+    try:
+        user = current_user._get_current_object()
+
+        # generate the list of requested member emails
+        emails = create_form.emails.data.split(" ")
+        emails.append(user.email)
+
+        # generate the list of valid emails
+        query = User.objects(email__in=emails)
+        valid_emails = [u.email for u in query]
+
+        # validate and create the new event
+        if len(emails) == len(valid_emails):
+
+            g = event(name=create_form.name.data, members=query,
+                      admins=[user]).save()
+
+            # add the event to each member's list of events
+            for u in query():
+                u.events.append(g)
+                u.save()
+
+            flash('success New event Created with Member(s): {}'.format(
+                ", ".join(valid_emails)))
+            return redirect(request.args.get('next') or url_for('events.home'))
+        else:
+            # determine the invalid emails
+            invalid_emails = list(set(emails) - set(valid_emails))
+            flash('error Could not Create New event. Unable to Find User(s):'
+                  '{}'.format(invalid_emails))
+    except Exception as e:
+        flash('error An Error has Occured, Please Try Again. '
+              '{}'.format(str(e)))
+
+    return redirect(request.args.get('next') or url_for('events.home'))
+        
+
+
+
+# no longer abhis shit
 
 
 @events.route('/delete-meeting', methods=['POST'])
@@ -220,6 +278,8 @@ def home():
 
     user = current_user._get_current_object()
     return render_template('event/dashboard.html', events=user.events)
+
+
 
 
 @events.route('/create', methods=['POST'])

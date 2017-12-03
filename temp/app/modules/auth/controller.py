@@ -66,17 +66,15 @@ def login():
     if request.method == 'GET':
         return render_template('auth/login.html', form=LoginForm())
 
-    # if not request.form:
-    #     data = request.get_json()
-    #     email = data['email']
-    #     password = data['password']
-    # else:
     form = LoginForm(request.form)
     if not form.validate():
         flash('error Invalid Email or Password.')
         return redirect(url_for('auth.login'))
     email = form.email.data
     password = form.password.data
+
+    print("YYOOOOOO")
+    print(email)
 
     user = user_datastore.find_user(email=email)
     print(str(user.email))
@@ -91,13 +89,8 @@ def login():
         flash('error Invalid Email or Password.')
         return redirect(url_for('auth.login'))
 
-    # user has not authenticated their account
-    if not user.is_authenticated():
-        flash('error Please Authenticate Your Account.')
-        return redirect(url_for('auth.login'))
-
     login_user(user)
-
+    print("before redirect")
     flash('success Logged in Successfully, {}'.format(user.name))
     return redirect(request.args.get('next') or url_for('classes.home'))
 
@@ -107,29 +100,6 @@ def login():
 def view_profile(user_id):
     """ Get information and statistics to view user's profile """
     return render_template('auth/profile.html')
-
-
-@auth.route('/invite/<email>', methods=['GET'])
-@login_required
-def invite_user(email):
-    try:
-        user = current_user._get_current_object()
-
-        mail = SendGrid(app)
-
-        mail.send_email(
-            from_email=app.config['SENDGRID_DEFAULT_FROM'],
-            to_email=email,
-            subject='Come Join myplanner',
-            html=invite_html(user.email, email)
-        )
-
-        flash('success Invitation Sent.')
-    except Exception as e:
-        flash('error Could not Create Invitation. {}'.format(e))
-
-    return redirect(request.args.get('next') or url_for('classes.home'))
-
 
 @auth.route('/getUser')
 @login_required
@@ -167,8 +137,8 @@ def delete_user():
         return jsonify({'error': 'invalid password'})
 
     classes = user.classes
-    for class in classes:
-        class.members.remove(user)
+    for c in classes:
+        c.members.remove(user)
 
     events = user.event
     for event in events:

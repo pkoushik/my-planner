@@ -23,7 +23,7 @@ class User(db.Document, UserMixin):
 
     # myplanner fields
     classes = db.ListField(db.ReferenceField('Class'), default=[])
-    events = db.ListField(db.ReferenceField('Event'), default=[])
+    #events = db.ListField(db.ReferenceField('Event'), default=[])
 
     # authentication fields
     activation_hash = db.StringField()
@@ -32,11 +32,6 @@ class User(db.Document, UserMixin):
     # security fields
     active = db.BooleanField(default=False)
     roles = db.ListField(db.ReferenceField(Role), default=[])
-
-
-    def is_authenticated(self):
-        """ Determines if a User is authenticated """
-        return self['authenticated']
 
     def is_active(self):
         """ Determines if a User is currently active """
@@ -63,16 +58,6 @@ class SignupForm(Form):
 class LoginForm(Form):
     email = StringField('Email', [validators.DataRequired(),
                                   validators.Length(min=4, max=25)])
-    password = PasswordField('Password', [validators.DataRequired(),
-                                          validators.Length(min=5, max=35)])
-
-
-class PasswordResetRequestForm(Form):
-    email = StringField('Email', [validators.DataRequired(),
-                                  validators.Length(min=4)])
-
-
-class PasswordResetForm(Form):
     password = PasswordField('Password', [validators.DataRequired(),
                                           validators.Length(min=5, max=35)])
 

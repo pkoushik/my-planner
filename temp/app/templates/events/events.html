@@ -1,0 +1,88 @@
+{% extends"helpers/dashboard.html" %} {% block title %} MyPlanner Dashboard {% endblock %} {% block main %}
+
+<h3 class="text-center"> My Classes </h3>
+
+<!-- Class Cards  -->
+{% for row_of_class in classes | batch(3) %}
+<div class="container">
+    <br>
+    <div class="row">
+        {% for class in row_of_class %}
+        <div class="card col-md-4">
+            <div class=" view overlay hm-white-slight">
+                <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
+                <a>
+                    <div class="mask"></div>
+                </a>
+            </div>
+
+            <div class="card-body">
+                <h4 class="card-title">{{ class.name }}</h4>
+                <hr>
+            </div>
+            <div class="card-data flex-center">
+                <ul>
+                    <li>
+                        <i class="fa fa-clock-o"></i> </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-users"> </i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>{% endfor %}
+
+<a class="btn-floating btn-lg quillioButton" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createClassForm">
+    <i class="fa fa-plus"></i>
+</a>
+
+<!-- Create New Class Modal -->
+<div class="modal fade" id="createClassForm" tabindex="-1" role="dialog" aria-labelledby="createClassForm" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header darken-3 white-text" style="background-color: #45526E">
+                <h4 class=" title">
+                    <i class="fa fa-penci1"></i> Create Meeting
+                </h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form>
+                <div class="modal-body mb-0">
+                    <div class="md-form form-sm">
+                        <input type="text" id="name" name="name" value="{{ request.form.name }}" class="form-control" required>
+                        <label for="name"> Class Name </label>
+                    </div>
+                    <div class="md-form form-sm">
+                        <input type="text" id="professor" name="professor" value="{{ request.form.professor }}" class="form-control" required>
+                        <label for="name"> Professor Name </label>
+                    </div>
+                    <legend>Select Days of the Week</legend>
+                    {% for subfield in form.days %}
+                    <div class="form-group">
+                        {{ subfield }} {{ subfield.label }}
+                    </div>
+                    {% endfor %}
+                    <div class="text-center mt-1-half">
+                        <button id="classCreateButton" type="submit" name="submit" class="btn btn-mdb mdb-2" value="create" formmethod="post">
+                            Create
+                            <i class="fa fa-send ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- \Create Meeting Modal -->
+
+{% endblock %} {% block js_import %}
+<script type="text/javascript">
+    $(".button-collapse").sideNav();
+</script>
+{% endblock %}

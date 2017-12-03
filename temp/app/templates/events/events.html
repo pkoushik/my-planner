@@ -45,7 +45,7 @@
         <div class="modal-content">
             <div class="modal-header darken-3 white-text" style="background-color: #45526E">
                 <h4 class=" title">
-                    <i class="fa fa-penci1"></i> Create Meeting
+                    <i class="fa fa-penci1"></i> Add Assignment
                 </h4>
                 <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -56,20 +56,20 @@
                 <div class="modal-body mb-0">
                     <div class="md-form form-sm">
                         <input type="text" id="name" name="name" value="{{ request.form.name }}" class="form-control" required>
-                        <label for="name"> Class Name </label>
+                        <label for="name"> Assignment Name </label>
                     </div>
-                    <div class="md-form form-sm">
+                    <!-- <div class="md-form form-sm">
                         <input type="text" id="professor" name="professor" value="{{ request.form.professor }}" class="form-control" required>
-                        <label for="name"> Professor Name </label>
-                    </div>
-                    <legend>Select Days of the Week</legend>
-                    {% for subfield in form.days %}
+                        <label for="name"> Class </label>
+                    </div> -->
+                    <legend>Select Type of Assignment</legend>
+                    {% for subfield in form.typeOfEvent %}
                     <div class="form-group">
                         {{ subfield }} {{ subfield.label }}
                     </div>
                     {% endfor %}
                     <div class="text-center mt-1-half">
-                        <button id="classCreateButton" type="submit" name="submit" class="btn btn-mdb mdb-2" value="create" formmethod="post">
+                        <button id="eventCreateButton" type="submit" name="submit" class="btn btn-mdb mdb-2" value="add" formmethod="post">
                             Create
                             <i class="fa fa-send ml-1"></i>
                         </button>

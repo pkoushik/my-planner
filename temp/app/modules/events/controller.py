@@ -1,7 +1,7 @@
 import string
 
 from app.modules.auth.model import User
-from app.modules.events.model import Event, EventCreateForm
+from app.modules.events.model import Event, CreateEventForm
 from app.modules.classes.model import Class
 from flask import Blueprint, request, render_template, flash, redirect, \
     url_for, jsonify
@@ -13,15 +13,10 @@ events = Blueprint('events', __name__)
 def filter_form(form):
     """ Router for CRUD Forms that were Recieved on the event Dashboard """
 
-    if form['submit'] == 'create':
-        return create_event(form)
-    elif form['submit'] == 'update':
-        return update_event(form)
-    elif form['submit'] == 'delete':
-        return delete_event(form)
-
+    if form['submit'] == 'add':
+        return add_event(form)
     flash('error Could not Fulfill Request. Please Try Again.')
-    return redirect(url_for('classes.home'))
+    return redirect(url_for('events.home'))
 
 
 def event_filter_form(form):

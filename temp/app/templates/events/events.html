@@ -106,9 +106,15 @@ function addEvent() {
     console.log("suh dude")
     let payload = [];
     let n = $('#name').val();
+    let d = $('#due-date').val()
+    let t = $('#input_duetime').val()
+    console.log(t)
+    // console.log(typeof date)
     console.log(n)
     payload.push({
-        name: n
+        name: n,
+        date: d,
+        time: t
     });
     console.log(payload);
 

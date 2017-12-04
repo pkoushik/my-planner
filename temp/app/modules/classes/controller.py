@@ -20,7 +20,6 @@ from flask import Blueprint, render_template, flash, request, redirect, \
     url_for, jsonify
 from flask_security import current_user, login_required
 from bson import json_util
-<<<<<<< HEAD
 from dateutil.relativedelta import relativedelta
 from datetime import timedelta, date
 
@@ -31,9 +30,7 @@ try:
 except ImportError:
     flags = None
 
-=======
 from datetime import datetime
->>>>>>> 2c460a707e2ac7150e3562e2ac48a344d2c5e201
 
 classes = Blueprint('classes', __name__)
 
@@ -156,14 +153,19 @@ def add_class():
     current_class = Class(owner=user, name=name, professor=prof)
     current_class.days = days
     current_class.start_date = datetime_start_date
-    current_class.end_date = datetime_end_time
+    current_class.end_date = datetime_end_date
     current_class.start_time = datetime_start_time
     current_class.end_time = datetime_end_time
     current_class.save()
 
     user.classes.append(current_class)
     user.save()
+
+    createCalendarEvents(current_class)
     flash('success Added Class: {}'.format(current_class.name))
+    return redirect(request.args.get('next') or url_for('classes.home'))
+
+
 # sourced from https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
@@ -176,24 +178,34 @@ def createCalendarEvents(c):
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
     startDate = c.start_date
-    endDate = c.end_date+ datetime.timedelta(days=+100)
+    endDate = c.end_date
+    startTime = c.start_time
+    endTime = c.end_time
 
-    print(endDate.strftime('%Y-%m-%d'))
-
-    c.days = [0,2,4]
     for date in daterange(startDate,endDate):
-        print(date.weekday())
-        if date.weekday() in c.days:
-            print("yay!!!")
+        #print(date.weekday())
+        if str(date.weekday()) in c.days:
+            ed = date
+            sd = date
+
+            ed = ed+ relativedelta(hours=endTime.hour)
+            ed = ed + relativedelta(minutes=endTime.minute)
+
+            sd = sd+ relativedelta(hours=startTime.hour)
+            sd = sd + relativedelta(minutes=startTime.minute)
+
+            print(ed.strftime('%Y-%m-%dT%H:%M:%S'))
+            print(sd.strftime('%Y-%m-%dT%H:%M:%S'))
+
             event ={
-              'summary': 'Created by MyPlanner',
-              'description': 'Class',
+              'summary': c.name,
+              'description': 'Created by MyPlanner', # c.professor'',  #"Professor: "+str(c.professor),
               'start': {
-                'dateTime': date.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
+                'dateTime': sd.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
                 'timeZone': 'America/Indiana/Indianapolis',
               },
               'end': {
-                'dateTime': (date+ datetime.timedelta(hours=+1)).strftime('%Y-%m-%dT%H:%M:%S-05:00'),
+                'dateTime': ed.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
                 'timeZone': 'America/Indiana/Indianapolis',
               },
               'reminders': {
@@ -205,4 +217,4 @@ def createCalendarEvents(c):
               },
             }
             event = service.events().insert(calendarId='primary', body=event).execute()
-    return redirect(request.args.get('next') or url_for('classes.home'))
+    return

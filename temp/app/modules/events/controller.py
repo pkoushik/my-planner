@@ -76,10 +76,28 @@ def add_event(class_id):
     payload = request.get_json()
     c = Class.objects.get(id=class_id)
     user = current_user._get_current_object()
-    name = payload[0]['name']
-    print(name)
+    name = payload[0]['name'] # name of the event
+    date = payload[0]['date'] # day the event is due
+    time = payload[0]['time'] # time due for the event
+    typeOfEvent = payload[0]['typeOfEvent']
 
-    current_event = Event(name=name, typeOfEvent="").save()
+    print('time is ' + time)
+    print('date is ' + date)
+
+    # need to finna change date and time into DateTimeFields
+    # datetime_of_time = datetime.strptime()
+
+    total = date + ' ' + time
+    print('total is ' + total)
+
+    # total is 18 December, 2017 08:00PM (example)
+
+    datetime_obj = datetime.strptime(total, '%d %B, %Y %I:%M%p')
+
+    print('obj is ' + str(datetime_obj))
+
+
+    current_event = Event(name=name, typeOfEvent=typeOfEvent, date_time=datetime_obj).save()
     c.events.append(current_event)
     c.save()
     user.save()

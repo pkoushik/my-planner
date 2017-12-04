@@ -60,14 +60,14 @@
                     </div>
                     <select id="typeOfEvent" class="mdb-select">
                         <option value="" disabled selected>Type of Assignment</option>
-                        <option value="1">Homework</option>
-                        <option value="2">Test</option>
-                        <option value="3">Quiz</option>
-                        <option value="4">Presentation</option>
-                        <option value="5">Lab</option>
-                        <option value="6">Final</option>
-                        <option value="7">Midterm</option>
-                        <option value="8">Project</option>
+                        <option value="Homework">Homework</option>
+                        <option value="Test">Test</option>
+                        <option value="Quiz">Quiz</option>
+                        <option value="Presentation">Presentation</option>
+                        <option value="Lab">Lab</option>
+                        <option value="Final">Final</option>
+                        <option value="Midterm">Midterm</option>
+                        <option value="Project">Project</option>
                     </select>
                     <div class="md-form">
                         <input placeholder="Due Date" type="text" id="due-date" class="form-control datepicker">
@@ -106,9 +106,18 @@ function addEvent() {
     console.log("suh dude")
     let payload = [];
     let n = $('#name').val();
-    console.log(n)
+    let d = $('#due-date').val()
+    let t = $('#input_duetime').val()
+    let tOfE = $('#typeOfEvent').val()
+    console.log(tOfE)
+    // console.log(t)
+    // console.log(typeof date)
+    // console.log(n)
     payload.push({
-        name: n
+        name: n,
+        date: d,
+        time: t,
+        typeOfEvent: tOfE
     });
     console.log(payload);
 

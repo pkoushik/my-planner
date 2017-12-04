@@ -2,35 +2,26 @@
 
 <h3 class="text-center"> My Assignments for {{c.name}}</h3>
 
-<!-- Class Cards  -->
+<!-- Assignment Cards  -->
 {% for row_of_events in c.events | batch(3) %}
 <div class="container">
     <br>
     <div class="row">
         {% for event in row_of_events %}
         <div class="card col-md-4">
-            <div class=" view overlay hm-white-slight">
-                <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
 
+            <!--Card image-->
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
+
+            <!--Card content-->
             <div class="card-body">
-                <h4 class="card-title">{{ event.name }}</h4>
-                <hr>
-            </div>
-            <div class="card-data flex-center">
-                <ul>
-                    <li>
-                        <i class="fa fa-clock-o"></i> </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-users"> </i></a>
-                    </li>
-                </ul>
+                <!--Title-->
+                <h4 class="card-title">{{event.name}}<i onclick="delete()" class="fa fa-delete" data-toggle="modal" data-target="#deleteClassConfirm"></i></h4>
+                <!--Text-->
+                <p class="card-text">This is due...</p>
             </div>
         </div>
+    <!--/.Card-->
         {% endfor %}
     </div>
 </div>{% endfor %}

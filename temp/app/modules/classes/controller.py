@@ -10,6 +10,7 @@ from flask import Blueprint, render_template, flash, request, redirect, \
     url_for, jsonify
 from flask_security import current_user, login_required
 from bson import json_util
+from datetime import datetime
 
 classes = Blueprint('classes', __name__)
 
@@ -41,8 +42,32 @@ def add_class():
     print(name)
     prof = payload[0]['professor']
     print(prof)
+    days = payload[0]['days']
+    print(days)
+    start_date = payload[0]['start_date']
+    print(start_date)
+    end_date = payload[0]['end_date']
+    print(end_date)
+    start_time = payload[0]['start_time']
+    print(start_time)
+    end_time = payload[0]['end_time']
+    print(end_time)
 
-    current_class = Class(owner=user, name=name, professor=prof, days = "").save()
+    datetime_start_date = datetime.strptime(start_date, '%d %B, %Y')
+    datetime_end_date = datetime.strptime(end_date, '%d %B, %Y')
+
+    datetime_start_time = datetime.strptime(start_time, '%I:%M%p')
+    datetime_end_time = datetime.strptime(end_time, '%I:%M%p')
+
+
+    current_class = Class(owner=user, name=name, professor=prof)
+    current_class.days = days
+    current_class.start_date = datetime_start_date
+    current_class.end_date = datetime_end_time
+    current_class.start_time = datetime_start_time
+    current_class.end_time = datetime_end_time
+    current_class.save()
+
     user.classes.append(current_class)
     user.save()
     flash('success Added Class: {}'.format(current_class.name))

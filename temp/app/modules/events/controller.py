@@ -4,7 +4,6 @@ import string
 import re
 import requests
 import subprocess
-import datetime
 import os
 import httplib2
 import os
@@ -22,6 +21,7 @@ from flask_security import current_user, login_required
 from bson import json_util
 from dateutil.relativedelta import relativedelta
 from datetime import timedelta, date
+from datetime import datetime
 
 
 try:
@@ -113,13 +113,13 @@ def createCalendarEvent(e):
 
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
-    eventDate = e.time
+    eventDate = e.date_time
 
     print(eventDate.strftime('%Y-%m-%d'))
 
     event ={
       'summary': e.name,
-      'description': 'Class',
+      'description': 'Created by MyPlanner',
       'start': {
         'dateTime': eventDate.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
         'timeZone': 'America/Indiana/Indianapolis',

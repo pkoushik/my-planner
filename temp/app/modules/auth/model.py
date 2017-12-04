@@ -7,6 +7,7 @@ from wtforms import Form, StringField, PasswordField, validators
 
 
 
+
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
@@ -23,7 +24,6 @@ class User(db.Document, UserMixin):
 
     # myplanner fields
     classes = db.ListField(db.ReferenceField('Class'), default=[])
-    #events = db.ListField(db.ReferenceField('Event'), default=[])
 
     # authentication fields
     activation_hash = db.StringField()

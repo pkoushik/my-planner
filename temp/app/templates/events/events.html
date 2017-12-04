@@ -1,13 +1,13 @@
 {% extends"helpers/dashboard.html" %} {% block title %} MyPlanner Dashboard {% endblock %} {% block main %}
 
-<h3 class="text-center"> My Classes </h3>
+<h3 class="text-center"> My Assignments for {{c.name}}</h3>
 
 <!-- Class Cards  -->
-{% for row_of_class in classes | batch(3) %}
+{% for row_of_events in c.events | batch(3) %}
 <div class="container">
     <br>
     <div class="row">
-        {% for class in row_of_class %}
+        {% for event in row_of_events %}
         <div class="card col-md-4">
             <div class=" view overlay hm-white-slight">
                 <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="card-body">
-                <h4 class="card-title">{{ class.name }}</h4>
+                <h4 class="card-title">{{ event.name }}</h4>
                 <hr>
             </div>
             <div class="card-data flex-center">
@@ -35,17 +35,17 @@
     </div>
 </div>{% endfor %}
 
-<a class="btn-floating btn-lg quillioButton" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createClassForm">
+<a class="btn-floating btn-lg" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createEventForm">
     <i class="fa fa-plus"></i>
 </a>
 
 <!-- Create New Class Modal -->
-<div class="modal fade" id="createClassForm" tabindex="-1" role="dialog" aria-labelledby="createClassForm" aria-hidden="true">
+<div class="modal fade" id="createEventForm" tabindex="-1" role="dialog" aria-labelledby="createEventForm" aria-hidden="true">
     <div class="modal-dialog cascading-modal" role="document">
         <div class="modal-content">
             <div class="modal-header darken-3 white-text" style="background-color: #45526E">
                 <h4 class=" title">
-                    <i class="fa fa-penci1"></i> Create Meeting
+                    <i class="fa fa-server"></i> Add Assignment
                 </h4>
                 <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -55,23 +55,32 @@
             <form>
                 <div class="modal-body mb-0">
                     <div class="md-form form-sm">
-                        <input type="text" id="name" name="name" value="{{ request.form.name }}" class="form-control" required>
-                        <label for="name"> Class Name </label>
+                        <input placeholder="Name of Assignment"type="text" id="name" class="form-control" required>
+                        <label for="name"></label>
                     </div>
-                    <div class="md-form form-sm">
-                        <input type="text" id="professor" name="professor" value="{{ request.form.professor }}" class="form-control" required>
-                        <label for="name"> Professor Name </label>
+                    <select id="typeOfEvent" class="mdb-select">
+                        <option value="" disabled selected>Type of Assignment</option>
+                        <option value="1">Homework</option>
+                        <option value="2">Test</option>
+                        <option value="3">Quiz</option>
+                        <option value="4">Presentation</option>
+                        <option value="5">Lab</option>
+                        <option value="6">Final</option>
+                        <option value="7">Midterm</option>
+                        <option value="8">Project</option>
+                    </select>
+                    <div class="md-form">
+                        <input placeholder="Due Date" type="text" id="due-date" class="form-control datepicker">
+                        <label for="due-date"></label>
                     </div>
-                    <legend>Select Days of the Week</legend>
-                    {% for subfield in form.days %}
-                    <div class="form-group">
-                        {{ subfield }} {{ subfield.label }}
-                    </div>
-                    {% endfor %}
+                    <div class="md-form">
+                      <input placeholder="Due Time" type="text" id="input_duetime" class="form-control timepicker">
+                      <label for="input_duetime"></label>
+                  </div>
                     <div class="text-center mt-1-half">
-                        <button id="classCreateButton" type="submit" name="submit" class="btn btn-mdb mdb-2" value="create" formmethod="post">
-                            Create
-                            <i class="fa fa-send ml-1"></i>
+                        <button id="eventCreateButton" onclick="addEvent()" class="btn btn-mdb mdb-2">
+                            Add Assignment
+                            <i class="fa fa-pencil ml-1"></i>
                         </button>
                     </div>
                 </div>
@@ -79,10 +88,43 @@
         </div>
     </div>
 </div>
-<!-- \Create Meeting Modal -->
+<!-- \Create New Assignment Modal -->
 
 {% endblock %} {% block js_import %}
 <script type="text/javascript">
+    $('.mdb-select').material_select();
     $(".button-collapse").sideNav();
+    // Data Picker Initialization
+    $('.datepicker').pickadate();
+    $('#input_duetime').pickatime({
+      twelvehour: true
+    });
+</script>
+
+<script>
+function addEvent() {
+    console.log("suh dude")
+    let payload = [];
+    let n = $('#name').val();
+    console.log(n)
+    payload.push({
+        name: n
+    });
+    console.log(payload);
+
+    $.ajax({
+        type: "POST",
+        url: `/events/{{c.id}}/addEvent`,
+        data: JSON.stringify(payload),
+        success: function(data) {
+            console.log(data);
+        },
+        contentType: "application/json"
+    })
+    .then(function() {
+        window.location.href = "/classes/{{c.id}}"
+    })
+
+}
 </script>
 {% endblock %}

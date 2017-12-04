@@ -66,19 +66,19 @@
                         <option id="Sunday"value="6">Sunday</option>
                     </select>
                     <div class="md-form">
-                        <input placeholder="Start of Semester" type="text" id="start_date" class="form-control datepicker">
+                        <input placeholder="Start of Semester" type="text" id="start_date" class="form-control datepicker" required>
                         <label for="start_date"></label>
                     </div>
                     <div class="md-form">
-                        <input placeholder="End of Semester" type="text" id="end_date" class="form-control datepicker">
+                        <input placeholder="End of Semester" type="text" id="end_date" class="form-control datepicker" required>
                         <label for="end_date"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker">
+                      <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker" required>
                       <label for="input_starttime"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Selected time" type="text" id="input_endtime" class="form-control timepicker">
+                      <input placeholder="Selected time" type="text" id="input_endtime" class="form-control timepicker" required>
                       <label for="input_endtime"></label>
                     </div>
                     <div class="text-center mt-1-half">
@@ -125,7 +125,7 @@ function addClass() {
         console.log(ed)
         let st = $('#input_starttime').val();
         console.log(st)
-        let et = $('#input_starttime').val();
+        let et = $('#input_endtime').val();
         console.log(et)
         payload.push({
             name: n,

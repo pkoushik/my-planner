@@ -16,7 +16,7 @@
             <!--Card content-->
             <div class="card-body">
                 <!--Title-->
-                <h4 class="card-title">{{event.name}}<i value="{{event.id}}"onclick="deleteEvent()" class="fa fa-trash" data-toggle="modal" data-target="#deleteEventConfirm"></i></h4>
+                <h4 class="card-title">{{event.name}}<i id="deleteEventID" value="{{event.id}}"onclick="deleteEvent()" class="fa fa-trash" data-toggle="modal" data-target="#deleteEventConfirm"></i></h4>
                 <!--Text-->
                 <p class="card-text">This is due...</p>
             </div>

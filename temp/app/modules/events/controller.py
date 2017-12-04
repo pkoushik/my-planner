@@ -157,19 +157,24 @@ def delete_event(class_id):
     currclass = Class.objects.get(id=class_id)
 
     currevent = Event.objects.get(id=event_id)
-
+    delete_cal_events(currevent)
     currclass.events.remove(currevent) # finna delete the event from the class object
-
-
-
     # finna delete the event from the db
-
     currevent.delete()
 
     currclass.save()
 
-
-
-
-
     return json.dumps({'status': 'success'})
+
+def delete_cal_events(c):
+    print("delete calendar event")
+    credentials = get_credentials()
+
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    events = c.gcal_events
+    print(len(events))
+    for eventid in events:
+        print(eventid)
+        service.events().delete(calendarId='primary', eventId=eventid).execute()

@@ -167,6 +167,23 @@ def add_class():
     flash('success Added Class: {}'.format(current_class.name))
     return redirect(request.args.get('next') or url_for('classes.home'))
 
+@classes.route('/<class_id>/deleteClass', methods=['POST'])
+def delete_class(class_id):
+    print("finna delete a class")
+    print(class_id)
+    currclass = Class.objects.get(id=class_id)
+    delete_cal_events(currclass)
+    # need to finna delete every event from currclass
+    for event in currclass.events:
+        event.delete()
+        currclass.events.remove(event)
+    # all the events should be deleted from the class
+    curruser = current_user._get_current_object()
+    curruser.classes.remove(currclass) # removing the class from the users database
+    curruser.save()
+    currclass.delete()
+    return json.dumps({'status': 'success'})
+
 
 # sourced from https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
 def daterange(start_date, end_date):
@@ -196,10 +213,6 @@ def createCalendarEvents(c):
             sd = sd+ relativedelta(hours=startTime.hour)
             sd = sd + relativedelta(minutes=startTime.minute)
 
-            print(ed.strftime('%Y-%m-%dT%H:%M:%S'))
-            print(sd.strftime('%Y-%m-%dT%H:%M:%S'))
-
-
             event ={
               'summary': c.name,
               'description': 'Created by MyPlanner', # c.professor'',  #"Professor: "+str(c.professor),
@@ -225,18 +238,15 @@ def createCalendarEvents(c):
     return
     # return json.dumps({'status': 'success'})
 
-@classes.route('/<class_id>/deleteClass', methods=['POST'])
-def delete_class(class_id):
-    print("finna delete a class")
-    print(class_id)
-    currclass = Class.objects.get(id=class_id)
-    # need to finna delete every event from currclass
-    for event in currclass.events:
-        event.delete()
-        currclass.events.remove(event)
-    # all the events should be deleted from the class
-    curruser = current_user._get_current_object()
-    curruser.classes.remove(currclass) # removing the class from the users database
-    curruser.save()
-    currclass.delete()
-    return json.dumps({'status': 'success'})
+def delete_cal_events(c):
+    print("delete calendar event")
+    credentials = get_credentials()
+
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    events = c.gcal_events
+    print(len(events))
+    for eventid in events:
+        print(eventid)
+        service.events().delete(calendarId='primary', eventId=eventid).execute()

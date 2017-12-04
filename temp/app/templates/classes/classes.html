@@ -16,7 +16,7 @@
             <!--Card content-->
             <div class="card-body">
                 <!--Title-->
-                <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass()" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
+                <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
                 <!--Text-->
                 <p class="card-text">You have {{ class.events|length }} due.</p>
                 <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
@@ -154,8 +154,29 @@ function addClass() {
 
 }
 
-function deleteClass() {
+function deleteClass(class_id) {
     console.log("we out here, gonna finna delete a class")
+
+    console.log(class_id)
+
+    let payload = []
+
+    payload.push({
+        class_id: class_id
+    });
+
+    $.ajax({
+        type: "POST",
+        url: `/classes/${class_id}/deleteClass`,
+        data: JSON.stringify(payload),
+        success: function(data) {
+            console.log(data);
+        },
+        contentType: "application/json"
+    })
+    .then(function() {
+        window.location.href = "/classes"
+    })
 }
 </script>
 {% endblock %}

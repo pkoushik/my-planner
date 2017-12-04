@@ -11,6 +11,8 @@ from flask import Blueprint, render_template, flash, request, redirect, \
 from flask_security import current_user, login_required
 from bson import json_util
 from datetime import datetime
+# from app.modules.events.controller import delete_event
+
 
 classes = Blueprint('classes', __name__)
 
@@ -74,5 +76,32 @@ def add_class():
 
     #except Exception as e:
     #    flash('error An Error has occured, Please Try Again. {}'.format(e))
+
+    return json.dumps({'status': 'success'})
+
+@classes.route('/<class_id>/deleteClass', methods=['POST'])
+def delete_class(class_id):
+    print("finna delete a class")
+
+    print(class_id)
+
+    currclass = Class.objects.get(id=class_id)
+
+    # need to finna delete every event from currclass
+    for event in currclass.events:
+        event.delete()
+        currclass.events.remove(event)
+
+    # all the events should be deleted from the class
+
+    curruser = current_user._get_current_object()
+
+    curruser.classes.remove(currclass) # removing the class from the users database
+
+    curruser.save()
+
+    currclass.delete()
+
+
 
     return json.dumps({'status': 'success'})

@@ -9,33 +9,24 @@
     <div class="row">
         {% for class in row_of_class %}
         <div class="card col-md-4">
-            <div class=" view overlay hm-white-slight">
-                <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
-                <a href="/classes/{{class.id}}" style="background-color:#696773" class="btn-floating btn-action">
-                <i class="fa fa-chevron-right"></i>
-            </a>
+
+            <!--Card image-->
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
+
+            <!--Card content-->
             <div class="card-body">
-                <h4 class="card-title">{{ class.name }}</h4>
-                <hr>
-            </div>
-            <div class="card-data flex-center">
-                <ul>
-                    <li>
-                        <i class="fa fa-clock-o"></i> </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-users"> </i>{{ class.events|length }}</a>
-                    </li>
-                </ul>
+                <!--Title-->
+                <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
+                <!--Text-->
+                <p class="card-text">You have {{ class.events|length }} due.</p>
+                <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
             </div>
         </div>
+    <!--/.Card-->
+
         {% endfor %}
     </div>
-</div>{% endfor %}
+</div>{% endfor %}payload
 
 <a class="btn-floating btn-lg" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createClassForm">
     <i class="fa fa-plus"></i>
@@ -75,19 +66,19 @@
                         <option id="Sunday"value="6">Sunday</option>
                     </select>
                     <div class="md-form">
-                        <input placeholder="Start of Semester" type="text" id="start_date" class="form-control datepicker">
+                        <input placeholder="Start of Semester" type="text" id="start_date" class="form-control datepicker" required>
                         <label for="start_date"></label>
                     </div>
                     <div class="md-form">
-                        <input placeholder="End of Semester" type="text" id="end_date" class="form-control datepicker">
+                        <input placeholder="End of Semester" type="text" id="end_date" class="form-control datepicker" required>
                         <label for="end_date"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker">
+                      <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker" required>
                       <label for="input_starttime"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Selected time" type="text" id="input_endtime" class="form-control timepicker">
+                      <input placeholder="Selected time" type="text" id="input_endtime" class="form-control timepicker" required>
                       <label for="input_endtime"></label>
                     </div>
                     <div class="text-center mt-1-half">
@@ -134,7 +125,7 @@ function addClass() {
         console.log(ed)
         let st = $('#input_starttime').val();
         console.log(st)
-        let et = $('#input_starttime').val();
+        let et = $('#input_endtime').val();
         console.log(et)
         payload.push({
             name: n,
@@ -161,6 +152,31 @@ function addClass() {
             window.location.href = "/classes"
         })
 
+}
+
+function deleteClass(class_id) {
+    console.log("we out here, gonna finna delete a class")
+
+    console.log(class_id)
+
+    let payload = []
+
+    payload.push({
+        class_id: class_id
+    });
+
+    $.ajax({
+        type: "POST",
+        url: `/classes/${class_id}/deleteClass`,
+        data: JSON.stringify(payload),
+        success: function(data) {
+            console.log(data);
+        },
+        contentType: "application/json"
+    })
+    .then(function() {
+        window.location.href = "/classes"
+    })
 }
 </script>
 {% endblock %}

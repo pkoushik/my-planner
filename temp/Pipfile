@@ -1,8 +1,11 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
+
 [packages]
+
 flask = "*"
 gunicorn = "*"
 flask-login = "*"
@@ -12,3 +15,6 @@ flask-security = "*"
 flask-testing = "*"
 gevent = "*"
 pycodestyle = "*"
+google-api-python-client = "*"
+datetime = "*"
+dateutils = "*"

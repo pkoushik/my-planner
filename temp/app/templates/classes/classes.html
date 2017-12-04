@@ -16,7 +16,7 @@
             <!--Card content-->
             <div class="card-body">
                 <!--Title-->
-                <h4 class="card-title">{{class.name}}<i id="deleteClassID" value="{{class.id}}" onclick="deleteClass()" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></h4>
+                <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass()" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></h4></a>
                 <!--Text-->
                 <p class="card-text">You have {{ class.events|length }} due.</p>
                 <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>

@@ -31,6 +31,8 @@ except ImportError:
     flags = None
 
 from datetime import datetime
+# from app.modules.events.controller import delete_event
+
 
 classes = Blueprint('classes', __name__)
 
@@ -197,6 +199,7 @@ def createCalendarEvents(c):
             print(ed.strftime('%Y-%m-%dT%H:%M:%S'))
             print(sd.strftime('%Y-%m-%dT%H:%M:%S'))
 
+
             event ={
               'summary': c.name,
               'description': 'Created by MyPlanner', # c.professor'',  #"Professor: "+str(c.professor),
@@ -220,3 +223,20 @@ def createCalendarEvents(c):
             c.gcal_events.append(event['id'])
             c.save()
     return
+    # return json.dumps({'status': 'success'})
+
+@classes.route('/<class_id>/deleteClass', methods=['POST'])
+def delete_class(class_id):
+    print("finna delete a class")
+    print(class_id)
+    currclass = Class.objects.get(id=class_id)
+    # need to finna delete every event from currclass
+    for event in currclass.events:
+        event.delete()
+        currclass.events.remove(event)
+    # all the events should be deleted from the class
+    curruser = current_user._get_current_object()
+    curruser.classes.remove(currclass) # removing the class from the users database
+    curruser.save()
+    currclass.delete()
+    return json.dumps({'status': 'success'})

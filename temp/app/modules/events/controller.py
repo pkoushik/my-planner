@@ -137,4 +137,6 @@ def createCalendarEvent(e):
       },
     }
     event = service.events().insert(calendarId='primary', body=event).execute()
-    return redirect(request.args.get('next') or url_for('classes.home'))
+    e.gcal_events.append(event['id'])
+    e.save()
+    return

@@ -13,6 +13,7 @@ class Event(db.Document):
     name = db.StringField(max_length=80)
     typeOfEvent = db.StringField(max_length=80)
     date_time = db.DateTimeField()
+    gcal_events = db.ListField(db.StringField(default=""))
     # time = db.DateTimeField()
     # date = db.DateTimeField()
     #time_str = db.StringField(time.strftime('%m-%d-%Y'))

@@ -17,4 +17,5 @@ class Class(db.Document):
     days = db.ListField(db.StringField(default="",required=True))
     start_date = db.DateTimeField(default=dt.now())
     end_date = db.DateTimeField(default=dt.now())
+    gcal_events = db.ListField(db.StringField(default=""))
     meta = {'strict': False}

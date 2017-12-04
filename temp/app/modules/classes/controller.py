@@ -217,4 +217,6 @@ def createCalendarEvents(c):
               },
             }
             event = service.events().insert(calendarId='primary', body=event).execute()
+            c.gcal_events.append(event['id'])
+            c.save()
     return

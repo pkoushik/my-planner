@@ -25,3 +25,13 @@ def add_event(class_id):
     flash('success Added Assignment: {}'.format(current_event.name))
 
     return json.dumps({'status': 'success'})
+
+
+@events.route('/<class_id>/deleteEvent', methods=['POST'])
+def delete_event(class_id):
+    payload = request.get_json()
+    currclass = Class.objects.get(id=class_id)
+    event_id = payload[0]['event_id']
+
+    # print('the events of this class are ')
+    # print(str(currclass.events))

@@ -33,7 +33,6 @@ except ImportError:
 
 classes = Blueprint('classes', __name__)
 
-<<<<<<< HEAD
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
@@ -80,8 +79,7 @@ def filter_form(form):
     flash('error Could not Fulfill Request. Please Try Again.')
     return redirect(url_for('classes.home'))
 
-=======
->>>>>>> d28af62442b791706127774f9d6741cf4d73a618
+
 @classes.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
@@ -93,53 +91,53 @@ def home():
     user = current_user._get_current_object()
     return render_template('classes/classes.html', classes=user.classes, user=user)
 
+# @classes.route('/<class_id>', methods=['GET'])
+# @login_required
+# def add_class(form=None):
+#     if form is None:
+#         flash('Invalid request to add a class')
+#
+#     add_class_form = CreateClassForm(form) # form to add a class
+#
+#     if not add_class_form.validate():
+#         print(add_class_form.name)
+#         print(add_class_form.professor)
+#         print(add_class_form.days)
+#         flash('Invalid information was provided in creating a class. Please try again.')
+#         return redirect(request.args.get('next') or url_for('classes.home'))
+#
+#
+#     # form is valid
+#     try:
+#         user = current_user._get_current_object()
+#
+#         # class that is created from the form
+#         current_class = Class(owner=user, name=add_class_form.name.data, professor = add_class_form.professor.data, days = [add_class_form.days.data]).save()
+
 @classes.route('/<class_id>', methods=['GET'])
 @login_required
-<<<<<<< HEAD
-def add_class(form=None):
-    if form is None:
-        flash('Invalid request to add a class')
-
-    add_class_form = CreateClassForm(form) # form to add a class
-
-    if not add_class_form.validate():
-        print(add_class_form.name)
-        print(add_class_form.professor)
-        print(add_class_form.days)
-        flash('Invalid information was provided in creating a class. Please try again.')
-        return redirect(request.args.get('next') or url_for('classes.home'))
-
-
-    # form is valid
-    try:
-        user = current_user._get_current_object()
-
-        # class that is created from the form
-        current_class = Class(owner=user, name=add_class_form.name.data, professor = add_class_form.professor.data, days = [add_class_form.days.data]).save()
-=======
 def getEvents(class_id):
     print("yooo im cool man guy")
     c = Class.objects.with_id(class_id)
     user = current_user._get_current_object()
     return render_template('events/events.html', c=c, user=user)
->>>>>>> d28af62442b791706127774f9d6741cf4d73a618
+
 
 @classes.route('/addClass', methods=['POST'])
 def add_class():
     payload = request.get_json()
-    # try:
-    user = current_user._get_current_object()
-    name = payload[0]['name']
-    print(name)
-    prof = payload[0]['professor']
-    print(prof)
+    try:
+        user = current_user._get_current_object()
+        name = payload[0]['name']
+        print(name)
+        prof = payload[0]['professor']
+        print(prof)
 
-    current_class = Class(owner=user, name=name, professor=prof, days = "").save()
-    user.classes.append(current_class)
-    user.save()
-    flash('success Added Class: {}'.format(current_class.name))
+        current_class = Class(owner=user, name=name, professor=prof, days = []).save()
+        user.classes.append(current_class)
+        user.save()
+        flash('success Added Class: {}'.format(current_class.name))
 
-<<<<<<< HEAD
         createCalendarEvents(current_class)
 
     except Exception as e:
@@ -190,9 +188,3 @@ def createCalendarEvents(c):
             }
             event = service.events().insert(calendarId='primary', body=event).execute()
     return redirect(request.args.get('next') or url_for('classes.home'))
-=======
-    #except Exception as e:
-    #    flash('error An Error has occured, Please Try Again. {}'.format(e))
-
-    return json.dumps({'status': 'success'})
->>>>>>> d28af62442b791706127774f9d6741cf4d73a618

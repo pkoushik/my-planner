@@ -9,30 +9,21 @@
     <div class="row">
         {% for class in row_of_class %}
         <div class="card col-md-4">
-            <div class=" view overlay hm-white-slight">
-                <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
-                <a href="/classes/{{class.id}}" style="background-color:#696773" class="btn-floating btn-action">
-                <i class="fa fa-chevron-right"></i>
-            </a>
+
+            <!--Card image-->
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
+
+            <!--Card content-->
             <div class="card-body">
-                <h4 class="card-title">{{ class.name }}</h4>
-                <hr>
-            </div>
-            <div class="card-data flex-center">
-                <ul>
-                    <li>
-                        <i class="fa fa-clock-o"></i> </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-users"> </i>{{ class.events|length }}</a>
-                    </li>
-                </ul>
+                <!--Title-->
+                <h4 class="card-title">{{class.name}}<i onclick="delete()" class="fa fa-delete" data-toggle="modal" data-target="#deleteClassConfirm"></i></h4>
+                <!--Text-->
+                <p class="card-text">You have {{ class.events|length }} due.</p>
+                <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
             </div>
         </div>
+    <!--/.Card-->
+
         {% endfor %}
     </div>
 </div>{% endfor %}
@@ -65,22 +56,22 @@
                         <label for="name"> Professor Name </label>
                     </div>
                     <select id="days" class="mdb-select" multiple>
-                        <option value="" disabled selected>Days</option>
-                        <option value="1">Monday</option>
-                        <option value="2">Tuesday</option>
-                        <option value="3">Wednesday</option>
-                        <option value="4">Thursday</option>
-                        <option value="5">Friday</option>
-                        <option value="6">Saturday</option>
-                        <option value="7">Sunday</option>
+                        <option value="-1" disabled selected>Days</option>
+                        <option id="Monday" value="0">Monday</option>
+                        <option id="Tuesday" value="1">Tuesday</option>
+                        <option id="Wednesday "value="2">Wednesday</option>
+                        <option id="Thursday" value="3">Thursday</option>
+                        <option id="Friday" value="4">Friday</option>
+                        <option id="Saturday" value="5">Saturday</option>
+                        <option id="Sunday"value="6">Sunday</option>
                     </select>
                     <div class="md-form">
-                        <input placeholder="Start of School Year" type="text" id="start_date" class="form-control datepicker">
-                        <label for=""></label>
+                        <input placeholder="Start of Semester" type="text" id="start_date" class="form-control datepicker">
+                        <label for="start_date"></label>
                     </div>
                     <div class="md-form">
-                        <input placeholder="End of School Year" type="text" id="start_date" class="form-control datepicker">
-                        <label for=""></label>
+                        <input placeholder="End of Semester" type="text" id="end_date" class="form-control datepicker">
+                        <label for="end_date"></label>
                     </div>
                     <div class="md-form">
                       <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker">
@@ -120,15 +111,32 @@
 <script>
 function addClass() {
         console.log("suh dude")
-        let payload = [];
+        let payload = []
         let n = $('#name').val();
+        var selectedDays = $('#days').val();
         console.log(n)
         let prof = $('#professor').val();
         console.log(prof)
+        var selectedDays = $('#days').val();
+        console.log(selectedDays)
+        let sd = $('#start_date').val();
+        console.log(sd)
+        let ed = $('#end_date').val();
+        console.log(ed)
+        let st = $('#input_starttime').val();
+        console.log(st)
+        let et = $('#input_starttime').val();
+        console.log(et)
         payload.push({
             name: n,
-            professor: prof
+            professor: prof,
+            days: selectedDays,
+            start_date: sd,
+            end_date: ed,
+            start_time: st,
+            end_time: et
         });
+
         console.log(payload);
 
         $.ajax({

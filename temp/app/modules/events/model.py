@@ -12,7 +12,9 @@ class Event(db.Document):
     #owner = db.ReferenceField(User, required=True)
     name = db.StringField(max_length=80)
     typeOfEvent = db.StringField(max_length=80)
-    time = db.DateTimeField(default=dt.now())
+    date_time = db.DateTimeField()
+    # time = db.DateTimeField()
+    # date = db.DateTimeField()
     #time_str = db.StringField(time.strftime('%m-%d-%Y'))
     # event_class = db.ReferenceField(Class, required=True)
     meta = {'strict': False}

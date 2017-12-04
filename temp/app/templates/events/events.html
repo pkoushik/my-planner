@@ -2,35 +2,26 @@
 
 <h3 class="text-center"> My Assignments for {{c.name}}</h3>
 
-<!-- Class Cards  -->
+<!-- Assignment Cards  -->
 {% for row_of_events in c.events | batch(3) %}
 <div class="container">
     <br>
     <div class="row">
         {% for event in row_of_events %}
         <div class="card col-md-4">
-            <div class=" view overlay hm-white-slight">
-                <img src="https://mdbootstrap.com/img/Photos/Others/food.jpg" class="img-fluid" alt="">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
 
+            <!--Card image-->
+            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
+
+            <!--Card content-->
             <div class="card-body">
-                <h4 class="card-title">{{ event.name }}</h4>
-                <hr>
-            </div>
-            <div class="card-data flex-center">
-                <ul>
-                    <li>
-                        <i class="fa fa-clock-o"></i> </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-users"> </i></a>
-                    </li>
-                </ul>
+                <!--Title-->
+                <h4 class="card-title">{{event.name}}<i onclick="delete()" class="fa fa-delete" data-toggle="modal" data-target="#deleteClassConfirm"></i></h4>
+                <!--Text-->
+                <p class="card-text">This is due...</p>
             </div>
         </div>
+    <!--/.Card-->
         {% endfor %}
     </div>
 </div>{% endfor %}
@@ -60,14 +51,14 @@
                     </div>
                     <select id="typeOfEvent" class="mdb-select">
                         <option value="" disabled selected>Type of Assignment</option>
-                        <option value="1">Homework</option>
-                        <option value="2">Test</option>
-                        <option value="3">Quiz</option>
-                        <option value="4">Presentation</option>
-                        <option value="5">Lab</option>
-                        <option value="6">Final</option>
-                        <option value="7">Midterm</option>
-                        <option value="8">Project</option>
+                        <option value="Homework">Homework</option>
+                        <option value="Test">Test</option>
+                        <option value="Quiz">Quiz</option>
+                        <option value="Presentation">Presentation</option>
+                        <option value="Lab">Lab</option>
+                        <option value="Final">Final</option>
+                        <option value="Midterm">Midterm</option>
+                        <option value="Project">Project</option>
                     </select>
                     <div class="md-form">
                         <input placeholder="Due Date" type="text" id="due-date" class="form-control datepicker">
@@ -106,9 +97,18 @@ function addEvent() {
     console.log("suh dude")
     let payload = [];
     let n = $('#name').val();
-    console.log(n)
+    let d = $('#due-date').val()
+    let t = $('#input_duetime').val()
+    let tOfE = $('#typeOfEvent').val()
+    console.log(tOfE)
+    // console.log(t)
+    // console.log(typeof date)
+    // console.log(n)
     payload.push({
-        name: n
+        name: n,
+        date: d,
+        time: t,
+        typeOfEvent: tOfE
     });
     console.log(payload);
 

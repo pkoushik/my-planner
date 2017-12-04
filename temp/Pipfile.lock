@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fe36adbb17d02be7f71bc5c382c2281ccb4bcc480c0e44b6cbe52ee885982174"
+            "sha256": "20e8dfd5119afd4144a2722b8d1ace04a6006c9316217940b2dfd7d725cc66d4"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -26,6 +26,13 @@
         ]
     },
     "default": {
+        "argparse": {
+            "hashes": [
+                "sha256:c31647edb69fd3d465a847ea3157d37bed1f95f19760b11a47aa91c04b666314",
+                "sha256:62b089a55be1d8949cd2bc7e0df0bddb9e028faefc8c32038cc84862aefdd6e4"
+            ],
+            "version": "==1.4.0"
+        },
         "babel": {
             "hashes": [
                 "sha256:f20b2acd44f587988ff185d8949c3e208b4b3d5d20fcab7d91fe481ffa435528",
@@ -52,6 +59,12 @@
                 "sha256:b3d91011caff312274a629b35abd6eb67038f8f92423ad3d9e071c0bf8823226"
             ],
             "version": "==4.2"
+        },
+        "dateutils": {
+            "hashes": [
+                "sha256:c94a8e77d743abac79ed91f99f5ef594a972a527e05145cbb7aba59beced8a71"
+            ],
+            "version": "==0.6.6"
         },
         "flask": {
             "hashes": [
@@ -329,6 +342,13 @@
                 "sha256:e820d93414f3bec1fa456c84afbd4af1b43ff41366321619db74e6bc065d6924"
             ],
             "version": "==3.5.1"
+        },
+        "python-dateutil": {
+            "hashes": [
+                "sha256:95511bae634d69bc7329ba55e646499a842bc4ec342ad54a8cdb65645a0aad3c",
+                "sha256:891c38b2a02f5bb1be3e4793866c8df49c7d19baabf9c1bad62547e0b4866aca"
+            ],
+            "version": "==2.6.1"
         },
         "pytz": {
             "hashes": [

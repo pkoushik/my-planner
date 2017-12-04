@@ -1,9 +1,18 @@
+from __future__ import print_function
 import json
 import string
 import re
 import requests
 import subprocess
 import datetime
+import os
+import httplib2
+import os
+
+from apiclient import discovery
+from oauth2client import client
+from oauth2client import tools
+from oauth2client.file import Storage
 from app.modules.auth.model import User
 from app.modules.classes.model import Class, CreateClassForm
 #from app.modules.events.model import Event
@@ -11,6 +20,16 @@ from flask import Blueprint, render_template, flash, request, redirect, \
     url_for, jsonify
 from flask_security import current_user, login_required
 from bson import json_util
+from dateutil.relativedelta import relativedelta
+from datetime import timedelta, date
+
+
+try:
+    import argparse
+    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+except ImportError:
+    flags = None
+
 
 classes = Blueprint('classes', __name__)
 
@@ -33,7 +52,7 @@ def get_credentials():
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,
-                                   'calendar-python-quickstart.json')
+                                   'calendar-python-myplanner.json')
 
     store = Storage(credential_path)
     credentials = store.get()
@@ -91,7 +110,7 @@ def add_class(form=None):
         user = current_user._get_current_object()
 
         # class that is created from the form
-        current_class = Class(owner=user, name=add_class_form.name.data, professor = add_class_form.professor.data, days = add_class_form.days.data).save()
+        current_class = Class(owner=user, name=add_class_form.name.data, professor = add_class_form.professor.data, days = [add_class_form.days.data]).save()
 
         user.classes.append(current_class)
         user.save()
@@ -104,47 +123,48 @@ def add_class(form=None):
     except Exception as e:
         flash('error An Error has occured, Please Try Again. {}'.format(e))
 
-<<<<<<< HEAD
-# sourced from https://tudorbarbu.ninja/iterate-thru-dates-in-python/
-def daterange( start_date, end_date ):
-    if start_date &lt;= end_date:
-        for n in range( ( end_date - start_date ).days + 1 ):
-            yield start_date + datetime.timedelta( n )
-    else:
-        for n in range( ( start_date - end_date ).days + 1 ):
-            yield start_date - datetime.timedelta( n )
-def createCalendarEvents(Class c):
-    startDate = user.start_date
-    endDate = user.end_date
-    event ={
-      'summary': 'Google I/O 2015',
-      'location': '800 Howard St., San Francisco, CA 94103',
-      'description': 'A chance to hear more about Google\'s developer products.',
-      'start': {
-        'dateTime': '2017-12-28T09:00:00-07:00',
-        'timeZone': 'America/Los_Angeles',
-      },
-      'end': {
-        'dateTime': '2017-12-28T17:00:00-07:00',
-        'timeZone': 'America/Los_Angeles',
-      },
-      'reminders': {
-        'useDefault': False,
-        'overrides': [
-          {'method': 'email', 'minutes': 24 * 60},
-          {'method': 'popup', 'minutes': 10},
-        ],
-      },
-    }
-
-    event = service.events().insert(calendarId='primary', body=event).execute()
-
-
-    #for date in daterange(start,end):
-    #    if date.datetime.today() in c.days:
-    #        event = {
-    #
-    #        }
-=======
     return redirect(request.args.get('next') or url_for('classes.home'))
->>>>>>> dc0b24e7dedb6e1807075a3dabdf64f352c85235
+
+
+# sourced from https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
+def daterange(start_date, end_date):
+    for n in range(int ((end_date - start_date).days)):
+        yield start_date + timedelta(n)
+
+def createCalendarEvents(c):
+    print("tryna create that calendar event")
+    credentials = get_credentials()
+
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+    startDate = c.start_date
+    endDate = c.end_date+ datetime.timedelta(days=+100)
+
+    print(endDate.strftime('%Y-%m-%d'))
+
+    c.days = [0,2,4]
+    for date in daterange(startDate,endDate):
+        print(date.weekday())
+        if date.weekday() in c.days:
+            print("yay!!!")
+            event ={
+              'summary': 'Created by MyPlanner',
+              'description': 'Class',
+              'start': {
+                'dateTime': date.strftime('%Y-%m-%dT%H:%M:%S-05:00'),
+                'timeZone': 'America/Indiana/Indianapolis',
+              },
+              'end': {
+                'dateTime': (date+ datetime.timedelta(hours=+1)).strftime('%Y-%m-%dT%H:%M:%S-05:00'),
+                'timeZone': 'America/Indiana/Indianapolis',
+              },
+              'reminders': {
+                'useDefault': False,
+                'overrides': [
+                  {'method': 'email', 'minutes': 24 * 60},
+                  {'method': 'popup', 'minutes': 10},
+                ],
+              },
+            }
+            event = service.events().insert(calendarId='primary', body=event).execute()
+    return redirect(request.args.get('next') or url_for('classes.home'))

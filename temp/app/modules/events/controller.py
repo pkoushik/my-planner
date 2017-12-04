@@ -19,7 +19,7 @@ def add_event(class_id):
     name = payload[0]['name'] # name of the event
     date = payload[0]['date'] # day the event is due
     time = payload[0]['time'] # time due for the event
-    # typeOfEvent = payload[0]['typeOfEvent']
+    typeOfEvent = payload[0]['typeOfEvent']
 
     print('time is ' + time)
     print('date is ' + date)
@@ -37,7 +37,7 @@ def add_event(class_id):
     print('obj is ' + str(datetime_obj))
     
 
-    current_event = Event(name=name, typeOfEvent="", date_time=datetime_obj).save()
+    current_event = Event(name=name, typeOfEvent=typeOfEvent, date_time=datetime_obj).save()
     c.events.append(current_event)
     c.save()
     user.save()

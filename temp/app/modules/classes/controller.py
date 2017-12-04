@@ -172,11 +172,17 @@ def delete_class(class_id):
     print("finna delete a class")
     print(class_id)
     currclass = Class.objects.get(id=class_id)
-    delete_cal_events(currclass)
+    delete_cal_classes(currclass)
     # need to finna delete every event from currclass
-    for event in currclass.events:
+    len(currclass.events)
+    class_events = currclass.events
+    # for event2 in class_events:
+    #     currclass.events.remove(event2)
+    for event in class_events:
         event.delete()
-        currclass.events.remove(event)
+
+    currclass.events = []
+    currclass.save()
     # all the events should be deleted from the class
     curruser = current_user._get_current_object()
     curruser.classes.remove(currclass) # removing the class from the users database
@@ -238,15 +244,56 @@ def createCalendarEvents(c):
     return
     # return json.dumps({'status': 'success'})
 
-def delete_cal_events(c):
+def delete_cal_classes(c):
     print("delete calendar event")
     credentials = get_credentials()
 
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
-    events = c.gcal_events
+    events = c.events
     print(len(events))
-    for eventid in events:
-        print(eventid)
+    for event in events:
+        evids = event.gcal_events
+        for eventid in evids:
+            print(eventid)
+            service.events().delete(calendarId='primary', eventId=eventid).execute()
+
+    calEvents = c.gcal_events
+    for eventid in calEvents:
         service.events().delete(calendarId='primary', eventId=eventid).execute()
+
+# def delete_event(class_id):
+#     print("im in the delete method yeee its litty squad fam")
+#     # print(class_id)
+#
+#     payload = request.get_json()
+#     event_id = payload[0]['event_id']
+#
+#     print(class_id) # got the id for the class
+#     print(event_id) # got the id for the event, this is what needs to be deleted
+#
+#     currclass = Class.objects.get(id=class_id)
+#
+#     currevent = Event.objects.get(id=event_id)
+#     delete_cal_events(currevent)
+#     currclass.events.remove(currevent) # finna delete the event from the class object
+#     # finna delete the event from the db
+#     currevent.delete()
+#
+#     currclass.save()
+#
+#     return json.dumps({'status': 'success'})
+#
+# def delete_cal_events(c):
+#     print("delete calendar event")
+#     credentials = get_credentials()
+#
+#     http = credentials.authorize(httplib2.Http())
+#     service = discovery.build('calendar', 'v3', http=http)
+#
+#     events = c.gcal_events
+#     print(len(events))
+#     for eventid in events:
+#         print(eventid)
+#         service.events().delete(calendarId='primary', eventId=eventid).execute()

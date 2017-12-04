@@ -5,7 +5,6 @@ import requests
 import subprocess
 from app.modules.auth.model import User
 from app.modules.classes.model import Class
-from app.modules.events.model import CreateEventForm
 #from app.modules.events.model import Event
 from flask import Blueprint, render_template, flash, request, redirect, \
     url_for, jsonify

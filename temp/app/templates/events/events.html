@@ -16,7 +16,7 @@
             <!--Card content-->
             <div class="card-body">
                 <!--Title-->
-                <h4 class="card-title">{{event.name}}<a><i id="deleteEventID" value="{{event.id}}"onclick="deleteEvent()" class="fa fa-trash" data-toggle="modal" data-target="#deleteEventConfirm"></i></h4></a>
+                <h4 class="card-title">{{event.name}}<a><i id="deleteEventID" value="{{event.id}}" onclick="deleteEvent(`{{event.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteEventConfirm"></i></a></h4>
                 <!--Text-->
                 <p class="card-text">This is due...</p>
             </div>
@@ -124,6 +124,31 @@ function addEvent() {
     .then(function() {
         window.location.href = "/classes/{{c.id}}"
     })
+
+}
+
+function deleteEvent(event_id) {
+    console.log("we out here, finna delete an event")
+    let payload = []
+    // let event_id_to_del = $('#deleteEventID').val()
+    console.log(event_id)
+
+    payload.push({
+        event_id: event_id
+    });
+
+    $.ajax({
+        type: "POST",
+        url: `/events/{{c.id}}/deleteEvent`,
+        data: JSON.stringify(payload),
+        success: function(data) {
+            console.log(data);
+        },
+        contentType: "application/json"
+    })
+    .then(function() {
+        window.location.href = "/classes/{{c.id}}"
+    })    
 
 }
 </script>

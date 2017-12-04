@@ -48,9 +48,31 @@ def add_event(class_id):
 
 @events.route('/<class_id>/deleteEvent', methods=['POST'])
 def delete_event(class_id):
+    print("im in the delete method yeee its litty squad fam")
+    # print(class_id)
+
     payload = request.get_json()
-    currclass = Class.objects.get(id=class_id)
     event_id = payload[0]['event_id']
 
-    # print('the events of this class are ')
-    # print(str(currclass.events))
+    print(class_id) # got the id for the class
+    print(event_id) # got the id for the event, this is what needs to be deleted
+
+    currclass = Class.objects.get(id=class_id)
+
+    currevent = Event.objects.get(id=event_id)
+
+    currclass.events.remove(currevent) # finna delete the event from the class object
+
+    
+
+    # finna delete the event from the db
+
+    currevent.delete()
+
+    currclass.save()
+
+
+
+
+
+    return json.dumps({'status': 'success'})

@@ -9,7 +9,7 @@
     <br>
     <div class="row">
         {% for class in row_of_class %}
-        <div class="card col-md-3" style="width: 25.499999995%">
+        <div class="card col-md-4">
             <!--Card image-->
             <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
             <!--Card content-->
@@ -25,9 +25,6 @@
                 <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
             </div>
         </div>
-        {% if loop.index != 3 %}
-            <div class="col-md-1" style="width: 12.499999995%"></div>
-        {% endif %}
     {% endfor %}
     </div>
 </div>

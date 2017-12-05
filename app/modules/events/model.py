@@ -14,8 +14,8 @@ class Event(db.Document):
     typeOfEvent = db.StringField(max_length=80)
     date_time = db.DateTimeField()
     gcal_events = db.ListField(db.StringField(default=""))
+    time_str = db.StringField(default="")
     # time = db.DateTimeField()
     # date = db.DateTimeField()
-    #time_str = db.StringField(time.strftime('%m-%d-%Y'))
     # event_class = db.ReferenceField(Class, required=True)
     meta = {'strict': False}

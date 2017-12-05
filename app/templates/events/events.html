@@ -3,7 +3,7 @@
 <h3 class="text-center"> My Assignments for {{c.name}}</h3>
 
 <!-- Assignment Cards  -->
-{% for row_of_events in c.events | batch(3) %}
+{% for row_of_events in c.events|sort(attribute='date_time') | batch(3) %}
 <div class="container">
     <br>
     <div class="row mb-r">
@@ -18,7 +18,7 @@
                 <!--Title-->
                 <h4 class="card-title">{{event.name}}<a><i id="deleteEventID" value="{{event.id}}" onclick="deleteEvent(`{{event.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteEventConfirm"></i></a></h4>
                 <!--Text-->
-                <p class="card-text">This is due...</p>
+                <p class="card-text">This is due on {{event.time_str}}</p>
             </div>
         </div>
     <!--/.Card-->
@@ -26,7 +26,7 @@
     </div>
 </div>{% endfor %}
 
-<a class="btn-floating btn-lg" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createEventForm">
+<a class="btn-floating btn-lg myplannerButton" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createEventForm">
     <i class="fa fa-plus"></i>
 </a>
 
@@ -148,7 +148,7 @@ function deleteEvent(event_id) {
     })
     .then(function() {
         window.location.href = "/classes/{{c.id}}"
-    })    
+    })
 
 }
 </script>

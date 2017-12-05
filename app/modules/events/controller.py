@@ -97,7 +97,7 @@ def add_event(class_id):
     print('obj is ' + str(datetime_obj))
 
 
-    current_event = Event(name=name, typeOfEvent=typeOfEvent, date_time=datetime_obj).save()
+    current_event = Event(name=name, typeOfEvent=typeOfEvent, date_time=datetime_obj, time_str=datetime_obj.strftime('%b %d, %Y')).save()
     c.events.append(current_event)
     c.save()
     user.save()

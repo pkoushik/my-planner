@@ -8,7 +8,6 @@ app.config.from_object('config')
 # Define the database
 db = MongoEngine(app)
 
-
 @app.route('/')
 def index():
     return '<h1> MyPlanner Home </h1>'

@@ -3,3 +3,4 @@
 *.lock
 config.py
 test
+client_secret.json

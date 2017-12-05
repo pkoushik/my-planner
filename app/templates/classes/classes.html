@@ -9,23 +9,25 @@
     <br>
     <div class="row">
         {% for class in row_of_class %}
-        <div class="card col-md-4">
-            <!--Card image-->
-            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
-            <!--Card content-->
-            <div class="card-body">
-                <!--Title-->
-                <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
-                <!--Text-->
-                {% if class.events|length == 1%}
+        <div class="col-md-4">
+            <div class="card">
+                <!--Card image-->
+                <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
+                <!--Card content-->
+                <div class="card-body">
+                    <!--Title-->
+                    <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
+                    <!--Text-->
+                    {% if class.events|length == 1%}
                     <p class="card-text">You have {{ class.events|length }} assignment due.</p>
-                {% else %}
+                    {% else %}
                     <p class="card-text">You have {{ class.events|length }} assignments due.</p>
-                {% endif %}
-                <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
+                    {% endif %}
+                    <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
+                </div>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 {% endfor %}
@@ -50,7 +52,7 @@
             <form>
                 <div class="modal-body mb-0">
                     <div class="md-form form-sm">
-                        <input type="text" id="name"value="" class="form-control" required>
+                        <input type="text" id="name" value="" class="form-control" required>
                         <label for="name"> Class Name </label>
                     </div>
                     <div class="md-form form-sm">
@@ -76,16 +78,16 @@
                         <label for="end_date"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker" required>
-                      <label for="input_starttime"></label>
+                        <input placeholder="Selected time" type="text" id="input_starttime" class="form-control timepicker" required>
+                        <label for="input_starttime"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Selected time" type="text" id="input_endtime" class="form-control timepicker" required>
-                      <label for="input_endtime"></label>
+                        <input placeholder="Selected time" type="text" id="input_endtime" class="form-control timepicker" required>
+                        <label for="input_endtime"></label>
                     </div>
                     <div class="text-center mt-1-half">
-                        <button id="classCreateButton" onclick="addClass()"  class="btn btn-mdb mdb-2">
-                            Create
+                        <button id="classCreateButton" onclick="addClass()" class="btn btn-mdb mdb-2">
+                            Add Class
                             <i class="fa fa-send ml-1"></i>
                         </button>
                     </div>
@@ -103,15 +105,15 @@
     $('#start_date').pickadate();
     $('#end_date').pickadate();
     $('#input_starttime').pickatime({
-      twelvehour: true
+        twelvehour: true
     });
     $('#input_endtime').pickatime({
-      twelvehour: true
+        twelvehour: true
     });
 </script>
 
 <script>
-function addClass() {
+    function addClass() {
         console.log("suh dude")
         let payload = []
         let n = $('#name').val();
@@ -142,43 +144,43 @@ function addClass() {
         console.log(payload);
 
         $.ajax({
-            type: "POST",
-            url: `/classes/addClass`,
-            data: JSON.stringify(payload),
-            success: function(data) {
-                console.log(data);
-            },
-            contentType: "application/json"
-        })
-        .then(function() {
-            window.location.href = "/classes"
-        })
+                type: "POST",
+                url: `/classes/addClass`,
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    console.log(data);
+                },
+                contentType: "application/json"
+            })
+            .done(function() {
+                window.location.href = "/classes"
+            })
 
-}
+    }
 
-function deleteClass(class_id) {
-    console.log("we out here, gonna finna delete a class")
+    function deleteClass(class_id) {
+        console.log("we out here, gonna finna delete a class")
 
-    console.log(class_id)
+        console.log(class_id)
 
-    let payload = []
+        let payload = []
 
-    payload.push({
-        class_id: class_id
-    });
+        payload.push({
+            class_id: class_id
+        });
 
-    $.ajax({
-        type: "POST",
-        url: `/classes/${class_id}/deleteClass`,
-        data: JSON.stringify(payload),
-        success: function(data) {
-            console.log(data);
-        },
-        contentType: "application/json"
-    })
-    .then(function() {
-        window.location.href = "/classes"
-    })
-}
+        $.ajax({
+                type: "POST",
+                url: `/classes/${class_id}/deleteClass`,
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    console.log(data);
+                },
+                contentType: "application/json"
+            })
+            .then(function() {
+                window.location.href = "/classes"
+            })
+    }
 </script>
 {% endblock %}

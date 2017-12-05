@@ -9,6 +9,7 @@ verify_ssl = true
 flask = "*"
 gunicorn = "*"
 flask-login = "*"
+flask_script ="*"
 flask-wtf = "*"
 flask-mongoengine = "*"
 flask-security = "*"

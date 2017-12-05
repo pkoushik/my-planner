@@ -17,7 +17,11 @@
                 <!--Title-->
                 <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
                 <!--Text-->
-                <p class="card-text">You have {{ class.events|length }} due.</p>
+                {% if class.events|length == 1%}
+                    <p class="card-text">You have {{ class.events|length }} assignment due.</p>
+                {% else %}
+                    <p class="card-text">You have {{ class.events|length }} assignments due.</p>
+                {% endif %}
                 <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
             </div>
         </div>

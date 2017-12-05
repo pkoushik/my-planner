@@ -2,14 +2,14 @@ from flask import Flask
 from flask_mongoengine import MongoEngine
 
 # Initialize the app
-myapp = Flask(__name__)
-myapp.config.from_object('config')
+app = Flask(__name__)
+app.config.from_object('config')
 
 # Define the database
-db = MongoEngine(myapp)
+db = MongoEngine(app)
 
 
-@myapp.route('/')
+@app.route('/')
 def index():
     return '<h1> MyPlanner Home </h1>'
 
@@ -19,6 +19,6 @@ from app.modules.classes.controller import classes
 from app.modules.events.controller import events
 
 # Register Blueprints
-myapp.register_blueprint(auth, url_prefix='/auth')
-myapp.register_blueprint(classes, url_prefix='/classes')
-myapp.register_blueprint(events, url_prefix='/events')
+app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(classes, url_prefix='/classes')
+app.register_blueprint(events, url_prefix='/events')

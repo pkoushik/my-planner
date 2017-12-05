@@ -1,3 +1,4 @@
-from app import myapp
-
-myapp.run(port=8000)
+#!flask/bin/python 
+from app import app 
+if __name__ == '__main__': 
+    app.run()

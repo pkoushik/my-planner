@@ -1,5 +1,4 @@
 # ignore all logs
 *.pyc
-config.py
 test
 client_secret.json

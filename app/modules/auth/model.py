@@ -1,4 +1,4 @@
-from app import app, db
+from app import myapp, db
 
 from flask_security import Security, MongoEngineUserDatastore, \
     UserMixin , RoleMixin
@@ -64,7 +64,7 @@ class LoginForm(Form):
 
 # Flask-Security Setup
 user_datastore = MongoEngineUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
+security = Security(myapp, user_datastore)
 
 # Authentication Setup
 # mail = SendGrid(app)

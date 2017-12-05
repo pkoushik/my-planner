@@ -15,7 +15,6 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from app.modules.auth.model import User
 from app.modules.classes.model import Class
-#from app.modules.events.model import Event
 from flask import Blueprint, render_template, flash, request, redirect, \
     url_for, jsonify
 from flask_security import current_user, login_required

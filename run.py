@@ -1,3 +1,3 @@
-from app import app
+from app import myapp
 
-app.run(port=8000)
+myapp.run(port=8000)

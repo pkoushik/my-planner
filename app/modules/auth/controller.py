@@ -1,7 +1,7 @@
 import secrets
 import json
 
-from app import app
+from app import myapp
 from app.modules.auth.model import User, SignupForm, LoginForm, \
     user_datastore
 

@@ -3,3 +3,4 @@
 test
 client_secret.json
 .vscode/tags
+__pycache__/

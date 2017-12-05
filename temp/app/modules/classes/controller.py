@@ -70,15 +70,8 @@ def get_credentials():
     return credentials
 
 def filter_form(form):
-    """ Router for CRUD Forms that were Recieved on the Group Dashboard """
+    """ Router for CRUD Forms that were Recieved on the Classes Dashboard """
     print("trying to filter")
-    if form['submit'] == 'create':
-        return add_class(form)
-    # elif form['submit'] == 'update':
-    #     return update_group(form)
-    # elif form['submit'] == 'delete':
-    #     return delete_group(form)
-
     flash('error Could not Fulfill Request. Please Try Again.')
     return redirect(url_for('classes.home'))
 
@@ -93,29 +86,6 @@ def home():
     print("in get")
     user = current_user._get_current_object()
     return render_template('classes/classes.html', classes=user.classes, user=user)
-
-# @classes.route('/<class_id>', methods=['GET'])
-# @login_required
-# def add_class(form=None):
-#     if form is None:
-#         flash('Invalid request to add a class')
-#
-#     add_class_form = CreateClassForm(form) # form to add a class
-#
-#     if not add_class_form.validate():
-#         print(add_class_form.name)
-#         print(add_class_form.professor)
-#         print(add_class_form.days)
-#         flash('Invalid information was provided in creating a class. Please try again.')
-#         return redirect(request.args.get('next') or url_for('classes.home'))
-#
-#
-#     # form is valid
-#     try:
-#         user = current_user._get_current_object()
-#
-#         # class that is created from the form
-#         current_class = Class(owner=user, name=add_class_form.name.data, professor = add_class_form.professor.data, days = [add_class_form.days.data]).save()
 
 @classes.route('/<class_id>', methods=['GET'])
 @login_required
@@ -262,38 +232,3 @@ def delete_cal_classes(c):
     calEvents = c.gcal_events
     for eventid in calEvents:
         service.events().delete(calendarId='primary', eventId=eventid).execute()
-
-# def delete_event(class_id):
-#     print("im in the delete method yeee its litty squad fam")
-#     # print(class_id)
-#
-#     payload = request.get_json()
-#     event_id = payload[0]['event_id']
-#
-#     print(class_id) # got the id for the class
-#     print(event_id) # got the id for the event, this is what needs to be deleted
-#
-#     currclass = Class.objects.get(id=class_id)
-#
-#     currevent = Event.objects.get(id=event_id)
-#     delete_cal_events(currevent)
-#     currclass.events.remove(currevent) # finna delete the event from the class object
-#     # finna delete the event from the db
-#     currevent.delete()
-#
-#     currclass.save()
-#
-#     return json.dumps({'status': 'success'})
-#
-# def delete_cal_events(c):
-#     print("delete calendar event")
-#     credentials = get_credentials()
-#
-#     http = credentials.authorize(httplib2.Http())
-#     service = discovery.build('calendar', 'v3', http=http)
-#
-#     events = c.gcal_events
-#     print(len(events))
-#     for eventid in events:
-#         print(eventid)
-#         service.events().delete(calendarId='primary', eventId=eventid).execute()

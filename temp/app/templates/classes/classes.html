@@ -3,32 +3,37 @@
 <h3 class="text-center"> My Classes </h3>
 
 <!-- Class Cards  -->
-{% for row_of_class in classes | batch(3) %}
+{% for row_of_class in classes|reverse | batch(3) %}
 <div class="container">
+    <br>
     <br>
     <div class="row">
         {% for class in row_of_class %}
-        <div class="card col-md-4">
-
+        <div class="card col-md-3" style="width: 25.499999995%">
             <!--Card image-->
             <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg" alt="Card image cap">
-
             <!--Card content-->
             <div class="card-body">
                 <!--Title-->
                 <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
                 <!--Text-->
-                <p class="card-text">You have {{ class.events|length }} due.</p>
+                {% if class.events|length == 1%}
+                    <p class="card-text">You have {{ class.events|length }} assignment due.</p>
+                {% else %}
+                    <p class="card-text">You have {{ class.events|length }} assignments due.</p>
+                {% endif %}
                 <a href="/classes/{{class.id}}" class="btn btn-primary">View {{class.name}}</a>
             </div>
         </div>
-    <!--/.Card-->
-
-        {% endfor %}
+        {% if loop.index != 3 %}
+            <div class="col-md-1" style="width: 12.499999995%"></div>
+        {% endif %}
+    {% endfor %}
     </div>
-</div>{% endfor %}payload
+</div>
+{% endfor %}
 
-<a class="btn-floating btn-lg" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createClassForm">
+<a class="btn-floating btn-lg myplannerButton" style="position: fixed; right:35px; bottom:35px;" data-toggle="modal" data-target="#createClassForm">
     <i class="fa fa-plus"></i>
 </a>
 

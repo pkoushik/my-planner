@@ -1,6 +1,5 @@
 # ignore all logs
 *.pyc
-*.lock
 config.py
 test
 client_secret.json

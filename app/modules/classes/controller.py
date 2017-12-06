@@ -16,6 +16,7 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from app.modules.auth.model import User
 from app.modules.classes.model import Class
+from app.modules.events.model import Event
 from flask import Blueprint, render_template, flash, request, redirect, \
     url_for, jsonify
 from flask_security import current_user, login_required
@@ -97,6 +98,20 @@ def getEvents(class_id):
     c = Class.objects.with_id(class_id)
     user = current_user._get_current_object()
     return render_template('events/events.html', c=c, user=user)
+
+@classes.route('/events', methods=['GET'])
+@login_required
+def getAllEvents():
+    print("yooo im cool man guy")
+    user = current_user._get_current_object()
+    events = []
+    for c in user.classes:
+        print(c)
+        for e in c.events:
+            print(e)
+            events.append(e)
+    print(events)
+    return render_template('events/allevents.html',  allEvents=events, user=user)
 
 
 @classes.route('/addClass', methods=['POST'])

@@ -23,11 +23,11 @@ from dateutil.relativedelta import relativedelta
 from datetime import timedelta, date
 
 
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
+# try:
+#     import argparse
+#     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+# except ImportError:
+#     flags = None
 
 from datetime import datetime
 # from app.modules.events.controller import delete_event
@@ -160,7 +160,7 @@ def delete_class(class_id):
     return json.dumps({'status': 'success'})
 
 
-# sourced from https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
+#sourced from https://stackoverflow.com/questions/1060279/iterating-through-a-range-of-dates-in-python
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)

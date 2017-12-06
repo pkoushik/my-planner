@@ -1,4 +1,4 @@
-{% extends"helpers/dashboard.html" %} {% block title %} MyPlanner Dashboard {% endblock %} {% block main %}
+{% extends"helpers/dashboard.html" %} {% block title %} {{c.name}} Dashboard {% endblock %} {% block main %}
 
 <h3 class="text-center"> My Assignments for {{c.name}}</h3>
 
@@ -21,7 +21,7 @@
                 <p class="card-text">This is due on {{event.time_str}}</p>
             </div>
         </div>
-    <!--/.Card-->
+        <!--/.Card-->
         {% endfor %}
     </div>
 </div>{% endfor %}
@@ -46,7 +46,7 @@
             <form>
                 <div class="modal-body mb-0">
                     <div class="md-form form-sm">
-                        <input placeholder="Name of Assignment"type="text" id="name" class="form-control" required>
+                        <input placeholder="Name of Assignment" type="text" id="name" class="form-control" required>
                         <label for="name"></label>
                     </div>
                     <select id="typeOfEvent" class="mdb-select" required>
@@ -65,9 +65,9 @@
                         <label for="due-date"></label>
                     </div>
                     <div class="md-form">
-                      <input placeholder="Due Time" type="text" id="input_duetime" class="form-control timepicker" required>
-                      <label for="input_duetime"></label>
-                  </div>
+                        <input placeholder="Due Time" type="text" id="input_duetime" class="form-control timepicker" required>
+                        <label for="input_duetime"></label>
+                    </div>
                     <div class="text-center mt-1-half">
                         <button id="eventCreateButton" onclick="addEvent()" class="btn btn-mdb mdb-2">
                             Add Assignment
@@ -88,68 +88,68 @@
     // Data Picker Initialization
     $('.datepicker').pickadate();
     $('#input_duetime').pickatime({
-      twelvehour: true
+        twelvehour: true
     });
 </script>
 
 <script>
-function addEvent() {
-    console.log("suh dude")
-    let payload = [];
-    let n = $('#name').val();
-    let d = $('#due-date').val()
-    let t = $('#input_duetime').val()
-    let tOfE = $('#typeOfEvent').val()
-    console.log(tOfE)
-    // console.log(t)
-    // console.log(typeof date)
-    // console.log(n)
-    payload.push({
-        name: n,
-        date: d,
-        time: t,
-        typeOfEvent: tOfE
-    });
-    console.log(payload);
+    function addEvent() {
+        console.log("suh dude")
+        let payload = [];
+        let n = $('#name').val();
+        let d = $('#due-date').val()
+        let t = $('#input_duetime').val()
+        let tOfE = $('#typeOfEvent').val()
+        console.log(tOfE)
+            // console.log(t)
+            // console.log(typeof date)
+            // console.log(n)
+        payload.push({
+            name: n,
+            date: d,
+            time: t,
+            typeOfEvent: tOfE
+        });
+        console.log(payload);
 
-    $.ajax({
-        type: "POST",
-        url: `/events/{{c.id}}/addEvent`,
-        data: JSON.stringify(payload),
-        success: function(data) {
-            console.log(data);
-        },
-        contentType: "application/json"
-    })
-    .then(function() {
-        window.location.href = "/classes/{{c.id}}"
-    })
+        $.ajax({
+                type: "POST",
+                url: `/events/{{c.id}}/addEvent`,
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    console.log(data);
+                },
+                contentType: "application/json"
+            })
+            .then(function() {
+                window.location.href = "/classes/{{c.id}}"
+            })
 
-}
+    }
 
-function deleteEvent(event_id) {
-    console.log("we out here, finna delete an event")
-    let payload = []
-    // let event_id_to_del = $('#deleteEventID').val()
-    console.log(event_id)
+    function deleteEvent(event_id) {
+        console.log("we out here, finna delete an event")
+        let payload = []
+            // let event_id_to_del = $('#deleteEventID').val()
+        console.log(event_id)
 
-    payload.push({
-        event_id: event_id
-    });
+        payload.push({
+            event_id: event_id
+        });
 
-    $.ajax({
-        type: "POST",
-        url: `/events/{{c.id}}/deleteEvent`,
-        data: JSON.stringify(payload),
-        success: function(data) {
-            console.log(data);
-        },
-        contentType: "application/json"
-    })
-    .then(function() {
-        window.location.href = "/classes/{{c.id}}"
-    })
+        $.ajax({
+                type: "POST",
+                url: `/events/{{c.id}}/deleteEvent`,
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    console.log(data);
+                },
+                contentType: "application/json"
+            })
+            .then(function() {
+                window.location.href = "/classes/{{c.id}}"
+            })
 
-}
+    }
 </script>
 {% endblock %}

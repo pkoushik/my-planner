@@ -10,7 +10,7 @@ db = MongoEngine(app)
 
 @app.route('/')
 def index():
-    return '<h1> MyPlanner Home </h1>'
+    return '<h1> Go to My Planner <a href="/auth/login">Home</a> </h1>'
 
 # Import Blueprint modules
 from app.modules.auth.controller import auth

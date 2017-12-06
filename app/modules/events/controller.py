@@ -25,11 +25,11 @@ from datetime import datetime
 # import argparse
 #flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
+# try:
+#     import argparse
+#     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+# except ImportError:
+#     flags = None
 
 
 

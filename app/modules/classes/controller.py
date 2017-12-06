@@ -28,11 +28,11 @@ from datetime import timedelta, date
 # flags = argparse.ArgumentParser(parents=[""]).parse_args()
 # print f
 
-# try:
-#     import argpase
-#     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-# except ImportError:
-#     flags = None
+try:
+    import argpase
+    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+except ImportError:
+    flags = None
 
 from datetime import datetime
 # from app.modules.events.controller import delete_event
@@ -144,7 +144,7 @@ def delete_class(class_id):
     print("finna delete a class")
     print(class_id)
     currclass = Class.objects.get(id=class_id)
-    #delete_cal_classes(currclass)
+    delete_cal_classes(currclass)
     # need to finna delete every event from currclass
     len(currclass.events)
     class_events = currclass.events

@@ -104,7 +104,7 @@ def add_event(class_id):
     user.save()
     flash('success Added Assignment: {}'.format(current_event.name))
 
-    createCalendarEvent(current_event)
+    #createCalendarEvent(current_event)
 
     return json.dumps({'status': 'success'})
 
@@ -158,7 +158,7 @@ def delete_event(class_id):
     currclass = Class.objects.get(id=class_id)
 
     currevent = Event.objects.get(id=event_id)
-    delete_cal_events(currevent)
+    #delete_cal_events(currevent)
     currclass.events.remove(currevent) # finna delete the event from the class object
     # finna delete the event from the db
     currevent.delete()

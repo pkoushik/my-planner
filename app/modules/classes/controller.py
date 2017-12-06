@@ -136,7 +136,7 @@ def add_class():
     user.classes.append(current_class)
     user.save()
 
-    createCalendarEvents(current_class)
+    #createCalendarEvents(current_class)
     flash('success Added Class: {}'.format(current_class.name))
     return redirect(request.args.get('next') or url_for('classes.home'))
 
@@ -145,7 +145,7 @@ def delete_class(class_id):
     print("finna delete a class")
     print(class_id)
     currclass = Class.objects.get(id=class_id)
-    delete_cal_classes(currclass)
+    #delete_cal_classes(currclass)
     # need to finna delete every event from currclass
     len(currclass.events)
     class_events = currclass.events

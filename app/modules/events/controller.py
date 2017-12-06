@@ -57,15 +57,15 @@ def get_credentials():
     store = Storage(credential_path)
     credentials = store.get()
     if not credentials or credentials.invalid:
-        flow = OAuth2WebServerFlow(client_id=os.getenviron('CLIENT_ID'),
-                           client_secret=os.getenviron('CLIENT_SECRET'),
+        flow = OAuth2WebServerFlow(client_id=os.environ.get('CLIENT_ID'),
+                           client_secret=os.environ.get('CLIENT_SECRET'),
                            scope='https://www.googleapis.com/auth/calendar',
                            redirect_uri='http://localhost/classes')
         flow.user_agent = APPLICATION_NAME
         if flags:
             credentials = tools.run_flow(flow, store, flags)
-        else: # Needed only for compatibility with Python 2.6
-            credentials = tools.run(flow, store)
+#else: # Needed only for compatibility with Python 2.6
+            #credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
@@ -105,7 +105,7 @@ def add_event(class_id):
     user.save()
     flash('success Added Assignment: {}'.format(current_event.name))
 
-    #createCalendarEvent(current_event)
+    createCalendarEvent(current_event)
 
     return json.dumps({'status': 'success'})
 
@@ -113,7 +113,8 @@ def add_event(class_id):
 def createCalendarEvent(e):
     print("tryna create that calendar event")
     credentials = get_credentials()
-
+    if not credentials:
+        return
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
     eventDate = e.date_time
@@ -171,7 +172,8 @@ def delete_event(class_id):
 def delete_cal_events(c):
     print("delete calendar event")
     credentials = get_credentials()
-
+    if not credentials:
+        return
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 

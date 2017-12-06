@@ -8,6 +8,7 @@ import datetime
 import os
 import httplib2
 import os
+import argparse
 
 from apiclient import discovery
 from oauth2client import client
@@ -21,13 +22,16 @@ from flask_security import current_user, login_required
 from bson import json_util
 from dateutil.relativedelta import relativedelta
 from datetime import timedelta, date
+# import argparse
+# i = tools.argparser
+# print(i)
+# flags = argparse.ArgumentParser(parents=[""]).parse_args()
+# print f
 
-
-# try:
-#     import argparse
-#     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-# except ImportError:
-#     flags = None
+try:
+    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+except ImportError:
+    flags = None
 
 from datetime import datetime
 # from app.modules.events.controller import delete_event

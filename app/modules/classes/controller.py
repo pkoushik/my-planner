@@ -13,6 +13,7 @@ import argparse
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
+from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from app.modules.auth.model import User
 from app.modules.classes.model import Class

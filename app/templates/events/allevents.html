@@ -3,7 +3,7 @@
 <h3 class="text-center"> All Assignments </h3>
 
 <!-- Assignment Cards  -->
-{% for row_of_events in allEvents|sort(attribute='date_time') | batch(3) %}
+{% for row_of_events in allEvents | batch(3) %}
 <div class="container">
     <br>
     <div class="row mb-r">
@@ -16,10 +16,11 @@
                 <!--Card content-->
                 <div class="card-body">
                     <!--Title-->
-                    <h4 class="card-title">{{event.name}}
+                    <h4 class="card-title">{{event[0].name}}
                     </h4>
                     <!--Text-->
-                    <p class="card-text">This <strong>{{event.typeOfEvent}}</strong> is due on {{event.time_str}}</p>
+                    <p class="card-text">This <strong>{{event[0].typeOfEvent}}</strong> is due on <strong>{{event[0].time_str}}</strong> for {{event[1].name}}
+                    </p>
                 </div>
             </div>
             <!--/.Card-->

@@ -18,7 +18,7 @@
                     <!--Title-->
                     <h4 class="card-title">{{event.name}}<a><i id="deleteEventID" value="{{event.id}}" onclick="deleteEvent(`{{event.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteEventConfirm"></i></a></h4>
                     <!--Text-->
-                    <p class="card-text">This <strong>{{event.typeOfEvent}}</strong> is due on {{event.time_str}}</p>
+                    <p class="card-text">This <strong>{{event.typeOfEvent}}</strong> is due on <strong>{{event.time_str}}</strong></p>
                 </div>
             </div>
         </div>

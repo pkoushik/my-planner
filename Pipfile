@@ -2,7 +2,6 @@
 
 url = "https://pypi.python.org/simple"
 verify_ssl = true
-name = "pypi"
 
 
 [dev-packages]
@@ -12,7 +11,13 @@ name = "pypi"
 [packages]
 
 flask = "*"
+flask-login = "*"
+flask-wtf = "*"
 flask-mongoengine = "*"
 flask-security = "*"
-flask-sendgrid = "*"
+flask-testing = "*"
+gevent = "*"
+pycodestyle = "*"
+google-api-python-client = "*"
 datetime = "*"
+dateutils = "*"

@@ -6,7 +6,6 @@
 {% for row_of_class in classes|reverse | batch(3) %}
 <div class="container">
     <br>
-    <br>
     <div class="row">
         {% for class in row_of_class %}
         <div class="col-md-4">
@@ -18,7 +17,7 @@
                     <!--Title-->
                     <h4 class="card-title">{{class.name}}<a><i id="deleteClassID" value="{{class.id}}" onclick="deleteClass(`{{class.id}}`)" class="fa fa-trash" data-toggle="modal" data-target="#deleteClassConfirm"></i></a></h4>
                     <!--Text-->
-                    {% if class.events|length == 1%}
+                    {% if class.events|length == 1 %}
                     <p class="card-text">You have {{ class.events|length }} assignment due.</p>
                     {% else %}
                     <p class="card-text">You have {{ class.events|length }} assignments due.</p>

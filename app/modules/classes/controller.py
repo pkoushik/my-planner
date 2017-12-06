@@ -106,11 +106,8 @@ def getAllEvents():
     user = current_user._get_current_object()
     events = []
     for c in user.classes:
-        print(c)
         for e in c.events:
-            print(e)
             events.append(e)
-    print(events)
     return render_template('events/allevents.html',  allEvents=events, user=user)
 
 

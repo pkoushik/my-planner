@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_mongoengine import MongoEngine
 
 # Initialize the app
@@ -8,9 +8,9 @@ app.config.from_object('config')
 # Define the database
 db = MongoEngine(app)
 
-@app.route('/')
+@app.route('/', strict_slashes=False)
 def index():
-    return '<h1> Go to My Planner <a href="/auth/login">Home</a> </h1>'
+    return redirect(url_for('auth.login'))
 
 # Import Blueprint modules
 from app.modules.auth.controller import auth

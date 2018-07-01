@@ -1,9 +1,7 @@
 # ignore all logs
 *.pyc
-<<<<<<< .merge_file_lx1wEy
 config.py
-=======
->>>>>>> .merge_file_mKWIb7
 test
-.vscode/tags
+.vscode/**
+.vscode
 __pycache__/
